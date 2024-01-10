@@ -1,0 +1,58 @@
+# [mode]: dev
+env: dev
+http:
+  port: 8080
+
+jwt:
+  sign_key: "yafgo-signkey-yafgo"
+
+log:
+  level: debug
+  encoding: console # json or console
+  # path: "./storage/logs" # log 文件目录
+  # filename: "yafgo.log" # log 文件名
+  # prefix: "yafgo" # log 前缀
+  # time_format: "2006-01-02 15:04:05.000000" # 时间格式
+  stdout: true # 是否输出到 stdout
+  ctx_keys: ["reqid"]
+  rotate:
+    max_size: 64 # 每个日志文件保存的最大尺寸,单位：M
+    max_age: 7 # 文件最多保存多少天
+    max_backups: 30 # 日志文件最多保存多少个备份
+    local_time: true # 日志文件名使用本地化时间
+    compress: false # 是否压缩
+
+data:
+  gorm:
+    log_mode: 4 #  1-Silent, 2-Error, 3-Warn, 4-Info
+    table_prefix: "" #
+    max_idle_conns: 2 #
+    max_open_conns: 0 #
+  mysql:
+    default: "root:123456@tcp(127.0.0.1:3307)/yafgo?charset=utf8mb4&parseTime=True&loc=Local"
+  migrate:
+    table: "migrations"
+    driver: "mysql"
+    charset: "utf8mb4"
+
+# redis configuration
+redis:
+  default:
+    db: 8
+    addr: "127.0.0.1:6379"
+    password: ""
+    prefix: "yafgo"
+  cache:
+    db: 8
+    addr: "127.0.0.1:6379"
+    password: ""
+    prefix: "yafgo"
+
+# 飞书robot配置
+feishu:
+  # 内容前缀, 如: "[Yafgo Dev]"
+  prefix: ""
+  robot:
+    # webhook完整地址: "https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    # 或者仅最后的key: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    default: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
