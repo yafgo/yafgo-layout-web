@@ -99,7 +99,8 @@ func (h *Handler) CurrentUserIDStr(ctx *gin.Context) string {
 func (h *Handler) CurrentUser(ctx *gin.Context) (u *model.User, err error) {
 	uid := h.CurrentUserID(ctx)
 	if uid == 0 {
-		h.Logger.Errorf(ctx, "从Gin的Context中获取从jwt解析出来的用户ID失败, 请检查路由是否使用jwt中间件")
+		h.Logger.Warn(ctx, "从Gin的Context中获取从jwt解析出来的用户ID失败, 请检查路由是否使用jwt中间件")
+		err = errors.New("未登录或token无效")
 		return
 	}
 	return h.SvcUser.GetByID(ctx, uid)

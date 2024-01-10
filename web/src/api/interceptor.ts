@@ -6,9 +6,11 @@ import { getToken } from '@/utils/auth';
 
 export interface HttpResponse<T = unknown> {
   status: number;
+  success: boolean;
   msg: string;
   code: number;
   data: T;
+  error: string;
 }
 
 if (import.meta.env.VITE_API_BASE_URL) {
@@ -39,8 +41,8 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response: AxiosResponse<HttpResponse>) => {
     const res = response.data;
-    // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
+    // if the success is not true, it is judged as an error.
+    if (res.success !== true) {
       Message.error({
         content: res.msg || 'Error',
         duration: 5 * 1000,

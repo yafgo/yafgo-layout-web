@@ -64,7 +64,28 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/auth/login/username": {
+        "/v1/user/info": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "获取用户信息",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/login/username": {
             "post": {
                 "security": [
                     {
@@ -97,7 +118,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/auth/register/username": {
+        "/v1/user/register/username": {
             "post": {
                 "security": [
                     {

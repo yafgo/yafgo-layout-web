@@ -68,6 +68,13 @@ feishu:
     # 或者仅最后的key: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
     default: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
+# 阿里云Oss配置
+alioss:
+  accessKeyId: ""
+  accessKeySecret: ""
+  bucketName: ""
+  endpoint: oss-cn-shanghai.aliyuncs.com
+
 # config.yaml nacos 配置示例
 # nacos:
 #   dir_log: "./storage/tmp/nacos/log"

@@ -2,6 +2,8 @@ package frontend
 
 import (
 	"yafgo/yafgo-layout/internal/handler"
+	"yafgo/yafgo-layout/internal/middleware"
+	"yafgo/yafgo-layout/pkg/jwtutil"
 	"yafgo/yafgo-layout/pkg/sys/ylog"
 
 	"github.com/gin-gonic/gin"
@@ -9,6 +11,7 @@ import (
 
 type Router struct {
 	logger *ylog.Logger
+	Jwt    *jwtutil.JwtUtil
 
 	// handler
 	hdl          *handler.Handler
@@ -20,10 +23,12 @@ type Router struct {
 func NewRouter(
 	logger *ylog.Logger,
 	hdl *handler.Handler,
+	jwt *jwtutil.JwtUtil,
 ) *Router {
 	return &Router{
 		logger: logger,
 		hdl:    hdl,
+		Jwt:    jwt,
 
 		// handler
 		indexHandler: NewIndexHandler(hdl),
@@ -33,6 +38,8 @@ func NewRouter(
 }
 
 func (p *Router) Register(router *gin.Engine) {
+	mwAuth := middleware.JWTAuth(p.Jwt, false)
+	// mwAuthForce := middleware.JWTAuth(p.Jwt, true)
 
 	// 前台web
 	{
@@ -44,7 +51,7 @@ func (p *Router) Register(router *gin.Engine) {
 		r.GET("/index", p.webHandler.Index)
 	}
 
-	rApi := router.Group("/api")
+	rApi := router.Group("/api", mwAuth)
 
 	// 前台接口 [v1]
 	{
@@ -55,10 +62,12 @@ func (p *Router) Register(router *gin.Engine) {
 		r.GET("", p.indexHandler.Index)
 		r.GET("todo", todo)
 
-		// auth
+		// user
 		{
-			r.POST("/auth/register/username", p.userHandler.RegisterByUsername)
-			r.POST("/auth/login/username", p.userHandler.LoginByUsername)
+			r.POST("/user/register/username", p.userHandler.RegisterByUsername)
+			r.POST("/user/login/username", p.userHandler.LoginByUsername)
+			// 我的
+			r.GET("/user/info", p.userHandler.GetProfile)
 		}
 	}
 

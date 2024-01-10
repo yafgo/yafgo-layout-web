@@ -34,7 +34,7 @@ func NewUserHandler(handler *handler.Handler) UserHandler {
 //	@Tags			Auth
 //	@Param			data	body		service.ReqRegisterUsername	true	"请求参数"
 //	@Success		200		{object}	any							"{"code": 200, "data": [...]}"
-//	@Router			/v1/auth/register/username [post]
+//	@Router			/v1/user/register/username [post]
 //	@Security		ApiToken
 func (h *userHandler) RegisterByUsername(ctx *gin.Context) {
 
@@ -73,7 +73,7 @@ func (h *userHandler) RegisterByUsername(ctx *gin.Context) {
 //	@Tags			Auth
 //	@Param			data	body		service.ReqLoginUsername	true	"请求参数"
 //	@Success		200		{object}	any							"{"code": 200, "data": [...]}"
-//	@Router			/v1/auth/login/username [post]
+//	@Router			/v1/user/login/username [post]
 //	@Security		ApiToken
 func (h *userHandler) LoginByUsername(ctx *gin.Context) {
 
@@ -113,8 +113,25 @@ func (h *userHandler) Login(ctx *gin.Context) {
 	panic("not implemented") // TODO: Implement
 }
 
+// GetProfile implements UserHandler.
+//
+//	@Summary	获取用户信息
+//	@Description
+//	@Tags		Auth
+//	@Success	200	{object}	any	"{"code": 200, "data": [...]}"
+//	@Router		/v1/user/info [get]
+//	@Security	ApiToken
 func (h *userHandler) GetProfile(ctx *gin.Context) {
-	panic("not implemented") // TODO: Implement
+
+	user, err := h.CurrentUser(ctx)
+	if err != nil {
+		h.Resp().ErrorWithMsg(ctx, "获取信息失败", err)
+		return
+	}
+	h.Resp().Success(ctx, gin.H{
+		"id":       user.ID,
+		"username": user.Username,
+	})
 }
 
 func (h *userHandler) UpdateProfile(ctx *gin.Context) {
