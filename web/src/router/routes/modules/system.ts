@@ -13,12 +13,23 @@ const SYSTEM: AppRouteRecordRaw = {
   },
   children: [
     {
+      path: 'menu',
+      name: 'Menu',
+      component: () => import('@/views/system/menu/index.vue'),
+      meta: {
+        locale: 'menu.system.menu',
+        icon: 'icon-menu',
+        requiresAuth: true,
+        roles: ['*'],
+      },
+    },
+    {
       path: 'ycfg',
       name: 'Ycfg',
       component: () => import('@/views/system/ycfg/index.vue'),
       meta: {
         locale: 'menu.system.ycfg',
-        icon: 'icon-settings',
+        icon: 'icon-code',
         requiresAuth: true,
         roles: ['*'],
       },

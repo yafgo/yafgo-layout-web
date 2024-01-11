@@ -44,6 +44,7 @@ export default {
   'menu.faq': '常见问题',
   'menu.system': '系统设置',
   'menu.system.ycfg': '程序配置',
+  'menu.system.menu': '菜单管理',
   'navbar.docs': '文档中心',
   'navbar.action.locale': '切换为中文',
   ...localeSettings,

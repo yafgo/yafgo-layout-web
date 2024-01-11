@@ -43,7 +43,10 @@ func (h *menuHandler) List(ctx *gin.Context) {
 		h.Resp().Error(ctx, err)
 		return
 	}
-	h.Resp().Success(ctx, list)
+	h.Resp().Success(ctx, gin.H{
+		"list":  list,
+		"total": len(list),
+	})
 }
 
 // Detail implements MenuHandler.
