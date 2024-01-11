@@ -40,6 +40,7 @@ func NewApp() (app *application) {
 	// service
 	container.Provide(service.NewService)
 	container.Provide(service.NewUserService)
+	container.Provide(service.NewMenuService)
 
 	// repository
 	container.Provide(repository.NewRepository)

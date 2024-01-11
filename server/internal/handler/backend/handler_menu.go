@@ -5,6 +5,7 @@ import (
 	"yafgo/yafgo-layout/internal/model"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/cast"
 )
 
 type MenuHandler interface {
@@ -30,88 +31,123 @@ type menuHandler struct {
 
 // List implements MenuHandler.
 //
-//	@Summary		Menu list
+//	@Summary	Menu list
 //	@Description
-//	@Tags			API
-//	@Success		200	{object}	any	"{"code": 200, "data": [...]}"
-//	@Security		ApiToken
-//	@Router			/admin/menu/menus [get]
+//	@Tags		后台
+//	@Success	200	{object}	any	"{"code": 200, "data": [...]}"
+//	@Security	ApiToken
+//	@Router		/admin/menu/menus [get]
 func (h *menuHandler) List(ctx *gin.Context) {
-	h.Resp().Success(ctx, gin.H{
-		"data": "/api/",
-	})
+	list, err := h.SvcMenu.GetList(ctx)
+	if err != nil {
+		h.Resp().Error(ctx, err)
+		return
+	}
+	h.Resp().Success(ctx, list)
 }
 
 // Detail implements MenuHandler.
 //
-//	@Summary		Menu 查询单条
+//	@Summary	Menu 查询单条
 //	@Description
-//	@Tags			API
-//	@Success		200	{object}	any	"{"code": 200, "data": [...]}"
-//	@Security		ApiToken
-//	@Router			/admin/menu/menus/{id} [get]
+//	@Tags		后台
+//	@Param		id	path		int	true	"id"
+//	@Success	200	{object}	any	"{"code": 200, "data": [...]}"
+//	@Security	ApiToken
+//	@Router		/admin/menu/menus/{id} [get]
 func (h *menuHandler) Detail(ctx *gin.Context) {
-	id := ctx.Param("id")
-
-	h.Resp().Success(ctx, gin.H{
-		"data": id,
-	})
+	id := cast.ToInt64(ctx.Param("id"))
+	menu, err := h.SvcMenu.GetByID(ctx, id)
+	if err != nil {
+		h.Resp().Error(ctx, err)
+		return
+	}
+	h.Resp().Success(ctx, menu)
 }
 
 // Create implements MenuHandler.
 //
-//	@Summary		Menu 新增
+//	@Summary	Menu 新增
 //	@Description
-//	@Tags			API
-//	@Success		200	{object}	any	"{"code": 200, "data": [...]}"
-//	@Security		ApiToken
-//	@Router			/admin/menu/menus [post]
+//	@Tags		后台
+//	@Param		data	body		model.Menu	true	"请求参数"
+//	@Success	200		{object}	any			"{"code": 200, "data": [...]}"
+//	@Security	ApiToken
+//	@Router		/admin/menu/menus [post]
 func (h *menuHandler) Create(ctx *gin.Context) {
-	h.Resp().Success(ctx, gin.H{
-		"data": "/api/",
-	})
+	item := new(model.Menu)
+	if err := ctx.ShouldBindJSON(item); err != nil {
+		h.ParamError(ctx, err)
+		return
+	}
+
+	err := h.SvcMenu.CreateOne(ctx, item)
+	if err != nil {
+		h.Resp().Error(ctx, err)
+		return
+	}
+
+	h.Resp().Success(ctx, item)
 }
 
 // Update implements MenuHandler.
 //
-//	@Summary		Menu 更新
+//	@Summary	Menu 更新
 //	@Description
-//	@Tags			API
-//	@Success		200	{object}	any	"{"code": 200, "data": [...]}"
-//	@Security		ApiToken
-//	@Router			/admin/menu/menus/{id} [post]
+//	@Tags		后台
+//	@Param		id		path		int			true	"id"
+//	@Param		data	body		model.Menu	true	"请求参数"
+//	@Success	200		{object}	any			"{"code": 200, "data": [...]}"
+//	@Security	ApiToken
+//	@Router		/admin/menu/menus/{id} [post]
 func (h *menuHandler) Update(ctx *gin.Context) {
-	id := ctx.Param("id")
+	id := cast.ToInt64(ctx.Param("id"))
+	item := new(model.Menu)
+	if err := ctx.ShouldBindJSON(item); err != nil {
+		h.ParamError(ctx, err)
+		return
+	}
+	item.ID = id
+	_, err := h.SvcMenu.UpdateOne(ctx, item)
+	if err != nil {
+		h.Resp().Error(ctx, err)
+		return
+	}
 
-	h.Resp().Success(ctx, gin.H{
-		"data": id,
-	})
+	h.Resp().Success(ctx, item)
 }
 
 // Delete implements MenuHandler.
 //
-//	@Summary		Menu 删除
+//	@Summary	Menu 删除
 //	@Description
-//	@Tags			API
-//	@Success		200	{object}	any	"{"code": 200, "data": [...]}"
-//	@Security		ApiToken
-//	@Router			/admin/menu/menus/{id} [delete]
+//	@Tags		后台
+//	@Param		id	path		int	true	"id"
+//	@Success	200	{object}	any	"{"code": 200, "data": [...]}"
+//	@Security	ApiToken
+//	@Router		/admin/menu/menus/{id} [delete]
 func (h *menuHandler) Delete(ctx *gin.Context) {
-	id := ctx.Param("id")
+	id := cast.ToInt64(ctx.Param("id"))
+
+	rows, err := h.SvcMenu.DelByID(ctx, id)
+	if err != nil {
+		h.Resp().Error(ctx, err)
+		return
+	}
 
 	h.Resp().Success(ctx, gin.H{
-		"data": id,
+		"rows": rows,
 	})
 }
 
 // Delete implements MenuHandler.
 //
-//	@Summary		后台菜单
+//	@Summary	后台菜单
 //	@Description
-//	@Tags			API
-//	@Success		200	{object}	any	"{"code": 200, "data": [...]}"
-//	@Security		ApiToken
-//	@Router			/admin/menu [get]
+//	@Tags		后台
+//	@Success	200	{object}	any	"{"code": 200, "data": [...]}"
+//	@Security	ApiToken
+//	@Router		/admin/menu [get]
 func (h *menuHandler) Menus(ctx *gin.Context) {
 	menus := []model.Route{
 		{

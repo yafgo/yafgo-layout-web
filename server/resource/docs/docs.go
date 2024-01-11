@@ -42,6 +42,245 @@ const docTemplate = `{
                 }
             }
         },
+        "/admin/menu": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "后台菜单",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/menu/menus": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "Menu list",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "Menu 新增",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Menu"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/menu/menus/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "Menu 查询单条",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "Menu 更新",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "请求参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Menu"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "Menu 删除",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/system/cfg": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "获取当前生效的配置",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/system/cfg_in_redis": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "获取redis中的配置",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "后台"
+                ],
+                "summary": "更新redis中的配置",
+                "parameters": [
+                    {
+                        "description": "请求体",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/backend.ReqCfgInRedis"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/": {
             "get": {
                 "security": [
@@ -153,6 +392,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "backend.ReqCfgInRedis": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Menu": {
+            "type": "object"
+        },
         "service.ReqLoginUsername": {
             "type": "object",
             "required": [
