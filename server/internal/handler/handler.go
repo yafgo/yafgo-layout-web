@@ -27,12 +27,14 @@ type Handler struct {
 }
 
 func NewHandler(
+	cfg *ycfg.Config,
 	logger *ylog.Logger,
 	g *g.GlobalObj,
 	jwt *jwtutil.JwtUtil,
 	svcUser service.UserService,
 ) *Handler {
 	return &Handler{
+		Cfg:    cfg,
 		Logger: logger,
 		G:      g,
 		Jwt:    jwt,
