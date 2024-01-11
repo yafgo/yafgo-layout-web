@@ -142,14 +142,14 @@ func (h *menuHandler) Delete(ctx *gin.Context) {
 
 // Delete implements MenuHandler.
 //
-//	@Summary	后台菜单
-//	@Description
-//	@Tags		后台
-//	@Success	200	{object}	any	"{"code": 200, "data": [...]}"
-//	@Security	ApiToken
-//	@Router		/admin/menu [get]
+//	@Summary		后台菜单
+//	@Description	暂时仅支持二级
+//	@Tags			后台
+//	@Success		200	{object}	any	"{"code": 200, "data": [...]}"
+//	@Security		ApiToken
+//	@Router			/admin/menu [get]
 func (h *menuHandler) Menus(ctx *gin.Context) {
-	menus := []model.Route{
+	/* menus := []model.Route{
 		{
 			Path: "/dashboard",
 			Name: "dashboard",
@@ -159,7 +159,7 @@ func (h *menuHandler) Menus(ctx *gin.Context) {
 				Icon:         "icon-dashboard",
 				Order:        1,
 			},
-			Children: []model.Route{
+			Children: []*model.Route{
 				{
 					Path: "workplace",
 					Name: "Workplace",
@@ -193,5 +193,11 @@ func (h *menuHandler) Menus(ctx *gin.Context) {
 			},
 		},
 	}
-	h.Resp().Success(ctx, menus)
+	h.Resp().Success(ctx, menus) */
+	routes, err := h.SvcMenu.GetRoutes(ctx)
+	if err != nil {
+		h.Resp().Error(ctx, err)
+		return
+	}
+	h.Resp().Success(ctx, routes)
 }

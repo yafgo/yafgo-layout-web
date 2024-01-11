@@ -49,6 +49,7 @@ const docTemplate = `{
                         "ApiToken": []
                     }
                 ],
+                "description": "暂时仅支持二级",
                 "tags": [
                     "后台"
                 ],

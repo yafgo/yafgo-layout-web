@@ -11,6 +11,7 @@ type MenuService interface {
 	CreateOne(ctx context.Context, item *model.Menu) error
 	UpdateOne(ctx context.Context, item *model.Menu) (rows int64, err error)
 	DelByID(ctx context.Context, id int64) (rows int64, err error)
+	GetRoutes(ctx context.Context) (routes []*model.Route, err error)
 }
 
 func NewMenuService(service *Service) MenuService {
@@ -64,4 +65,48 @@ func (s *menuService) DelByID(ctx context.Context, id int64) (rows int64, err er
 		return
 	}
 	return info.RowsAffected, info.Error
+}
+
+// GetRoutes implements MenuService.
+func (s *menuService) GetRoutes(ctx context.Context) (routes []*model.Route, err error) {
+	q := s.Q.Menu
+	do := q.WithContext(ctx)
+	list, err := do.Order(q.Order).Find()
+	if err != nil || len(list) == 0 {
+		return
+	}
+
+	// 构造前端所需路由结构
+	var rMap = make(map[int64]*model.Route)
+	var subRoutes = make([]*model.Route, 0)
+	for _, v := range list {
+		var item = &model.Route{
+			ID:       v.ID,
+			Pid:      v.Pid,
+			Path:     v.Path,
+			Name:     v.Name,
+			Redirect: v.Redirect,
+			Meta: model.RouteMeta{
+				Icon:   v.Icon,
+				Locale: v.Label,
+				Order:  v.Order,
+			},
+		}
+		rMap[v.ID] = item
+		if v.Pid == 0 {
+			routes = append(routes, item)
+		} else {
+			subRoutes = append(subRoutes, item)
+		}
+	}
+	for _, v := range subRoutes {
+		if pRoute := rMap[v.Pid]; pRoute != nil {
+			if pRoute.Children == nil {
+				pRoute.Children = make([]*model.Route, 0)
+			}
+			pRoute.Children = append(pRoute.Children, v)
+		}
+	}
+
+	return
 }

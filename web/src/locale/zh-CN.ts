@@ -42,6 +42,8 @@ export default {
   'menu.user': '个人中心',
   'menu.arcoWebsite': 'Arco Design',
   'menu.faq': '常见问题',
+  'menu.system': '系统设置',
+  'menu.system.ycfg': '程序配置',
   'navbar.docs': '文档中心',
   'navbar.action.locale': '切换为中文',
   ...localeSettings,

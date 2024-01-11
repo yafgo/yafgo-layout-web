@@ -35,7 +35,6 @@ func newMenu(db *gorm.DB, opts ...gen.DOOption) menu {
 	_menu.Label = field.NewString(tableName, "label")
 	_menu.Icon = field.NewString(tableName, "icon")
 	_menu.Redirect = field.NewString(tableName, "redirect")
-	_menu.Components = field.NewString(tableName, "components")
 	_menu.Order = field.NewInt32(tableName, "order")
 	_menu.Meta = field.NewString(tableName, "meta")
 	_menu.CreatedAt = field.NewTime(tableName, "created_at")
@@ -50,20 +49,19 @@ func newMenu(db *gorm.DB, opts ...gen.DOOption) menu {
 type menu struct {
 	menuDo menuDo
 
-	ALL        field.Asterisk
-	ID         field.Int64
-	Pid        field.Int64  // 父级id
-	Path       field.String // 路由地址
-	Name       field.String // 路由名称(唯一)
-	Label      field.String // 菜单名称
-	Icon       field.String // 菜单图标
-	Redirect   field.String // 重定向地址
-	Components field.String // 页面组件
-	Order      field.Int32  // 排序
-	Meta       field.String // meta信息
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
-	DeletedAt  field.Field
+	ALL       field.Asterisk
+	ID        field.Int64
+	Pid       field.Int64  // 父级id
+	Path      field.String // 路由地址
+	Name      field.String // 路由名称(必须和前端定义一致)
+	Label     field.String // 菜单名称
+	Icon      field.String // 菜单图标
+	Redirect  field.String // 重定向地址
+	Order     field.Int32  // 排序
+	Meta      field.String // meta信息
+	CreatedAt field.Time
+	UpdatedAt field.Time
+	DeletedAt field.Field
 
 	fieldMap map[string]field.Expr
 }
@@ -87,7 +85,6 @@ func (m *menu) updateTableName(table string) *menu {
 	m.Label = field.NewString(table, "label")
 	m.Icon = field.NewString(table, "icon")
 	m.Redirect = field.NewString(table, "redirect")
-	m.Components = field.NewString(table, "components")
 	m.Order = field.NewInt32(table, "order")
 	m.Meta = field.NewString(table, "meta")
 	m.CreatedAt = field.NewTime(table, "created_at")
@@ -115,7 +112,7 @@ func (m *menu) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *menu) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 13)
+	m.fieldMap = make(map[string]field.Expr, 12)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["pid"] = m.Pid
 	m.fieldMap["path"] = m.Path
@@ -123,7 +120,6 @@ func (m *menu) fillFieldMap() {
 	m.fieldMap["label"] = m.Label
 	m.fieldMap["icon"] = m.Icon
 	m.fieldMap["redirect"] = m.Redirect
-	m.fieldMap["components"] = m.Components
 	m.fieldMap["order"] = m.Order
 	m.fieldMap["meta"] = m.Meta
 	m.fieldMap["created_at"] = m.CreatedAt

@@ -14,19 +14,18 @@ const TableNameMenu = "t_menu"
 
 // Menu mapped from table <t_menu>
 type Menu struct {
-	ID         int64          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
-	Pid        int64          `gorm:"column:pid;not null;comment:父级id" json:"pid"`
-	Path       string         `gorm:"column:path;not null;comment:路由地址" json:"path"`
-	Name       string         `gorm:"column:name;not null;comment:路由名称(唯一)" json:"name"`
-	Label      string         `gorm:"column:label;not null;comment:菜单名称" json:"label"`
-	Icon       string         `gorm:"column:icon;not null;comment:菜单图标" json:"icon"`
-	Redirect   string         `gorm:"column:redirect;not null;comment:重定向地址" json:"redirect"`
-	Components string         `gorm:"column:components;not null;comment:页面组件" json:"components"`
-	Order      int32          `gorm:"column:order;not null;comment:排序" json:"order"`
-	Meta       *string        `gorm:"column:meta;comment:meta信息" json:"meta"`
-	CreatedAt  time.Time      `gorm:"column:created_at;default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt  time.Time      `gorm:"column:updated_at;default:CURRENT_TIMESTAMP" json:"updated_at"`
-	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
+	ID        int64          `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
+	Pid       int64          `gorm:"column:pid;not null;comment:父级id" json:"pid"`
+	Path      string         `gorm:"column:path;not null;comment:路由地址" json:"path"`
+	Name      string         `gorm:"column:name;not null;comment:路由名称(必须和前端定义一致)" json:"name"`
+	Label     string         `gorm:"column:label;not null;comment:菜单名称" json:"label"`
+	Icon      string         `gorm:"column:icon;not null;comment:菜单图标" json:"icon"`
+	Redirect  string         `gorm:"column:redirect;not null;comment:重定向地址" json:"redirect"`
+	Order     int32          `gorm:"column:order;not null;comment:排序" json:"order"`
+	Meta      *string        `gorm:"column:meta;comment:meta信息" json:"meta"`
+	CreatedAt time.Time      `gorm:"column:created_at;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt time.Time      `gorm:"column:updated_at;default:CURRENT_TIMESTAMP" json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 
 // TableName Menu's table name

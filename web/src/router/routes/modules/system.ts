@@ -3,10 +3,10 @@ import { AppRouteRecordRaw } from '../types';
 
 const SYSTEM: AppRouteRecordRaw = {
   path: '/system',
-  name: 'system',
+  name: 'System',
   component: DEFAULT_LAYOUT,
   meta: {
-    locale: '系统设置',
+    locale: 'menu.system',
     icon: 'icon-settings',
     requiresAuth: true,
     order: 39,
@@ -17,7 +17,7 @@ const SYSTEM: AppRouteRecordRaw = {
       name: 'Ycfg',
       component: () => import('@/views/system/ycfg/index.vue'),
       meta: {
-        locale: '程序配置',
+        locale: 'menu.system.ycfg',
         icon: 'icon-settings',
         requiresAuth: true,
         roles: ['*'],
