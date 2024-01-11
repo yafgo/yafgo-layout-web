@@ -53,6 +53,12 @@
         <template #label="{ record }">
           {{ $t(record.label) }}
         </template>
+        <template #createdAt="{ record }">
+          {{ TimestampToDatetime(record.created_at) }}
+        </template>
+        <template #updatedAt="{ record }">
+          {{ TimestampToDatetime(record.updated_at) }}
+        </template>
         <template #operations>
           <a-button v-permission="['admin']" type="text" size="small">
             {{ $t('searchTable.columns.operations.view') }}
@@ -73,6 +79,7 @@
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import cloneDeep from 'lodash/cloneDeep';
   import Sortable from 'sortablejs';
+  import { TimestampToDatetime } from '@/utils/time';
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
@@ -118,14 +125,14 @@
       slotName: 'index',
     },
     {
-      title: '图标',
-      dataIndex: 'icon',
-      slotName: 'icon',
-    },
-    {
       title: '菜单名称',
       dataIndex: 'label',
       slotName: 'label',
+    },
+    {
+      title: '图标',
+      dataIndex: 'icon',
+      slotName: 'icon',
     },
     {
       title: '路由名称',
@@ -142,10 +149,12 @@
     {
       title: '创建时间',
       dataIndex: 'created_at',
+      slotName: 'createdAt',
     },
     {
       title: '修改时间',
       dataIndex: 'updated_at',
+      slotName: 'updatedAt',
     },
     {
       title: t('searchTable.columns.operations'),
