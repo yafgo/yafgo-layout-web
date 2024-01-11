@@ -10,6 +10,7 @@ import (
 	"yafgo/yafgo-layout/internal/service"
 	"yafgo/yafgo-layout/pkg/jwtutil"
 	"yafgo/yafgo-layout/pkg/response"
+	"yafgo/yafgo-layout/pkg/sys/ycfg"
 	"yafgo/yafgo-layout/pkg/sys/ylog"
 	"yafgo/yafgo-layout/pkg/validators"
 
@@ -17,6 +18,7 @@ import (
 )
 
 type Handler struct {
+	Cfg    *ycfg.Config
 	Logger *ylog.Logger
 	G      *g.GlobalObj
 	Jwt    *jwtutil.JwtUtil
