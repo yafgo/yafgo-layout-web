@@ -10,6 +10,7 @@ export const successResponseWrap = (data: unknown) => {
     status: 'ok',
     msg: '请求成功',
     code: 20000,
+    success: true,
   };
 };
 
