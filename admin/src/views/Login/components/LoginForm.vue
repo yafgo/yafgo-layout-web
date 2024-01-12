@@ -229,10 +229,10 @@ const signIn = async () => {
       const formData = await getFormData<UserLoginType>()
 
       try {
-        const res = await userStore.login(formData)
+        const res = await userStore.login(formData, remember.value)
 
         if (res.success) {
-          // 是否使用动态路由
+          /* // 是否使用动态路由
           if (appStore.getDynamicRouter) {
             getRole()
           } else {
@@ -242,7 +242,8 @@ const signIn = async () => {
             })
             permissionStore.setIsAddRouters(true)
             push({ path: redirect.value || permissionStore.addRouters[0].path })
-          }
+          } */
+          push({ path: redirect.value || permissionStore.addRouters[0].path })
         }
       } finally {
         loading.value = false

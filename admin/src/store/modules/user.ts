@@ -3,9 +3,10 @@ import { store } from '../index'
 import { UserLoginType, UserType } from '@/api/login/types'
 import { ElMessageBox } from 'element-plus'
 import { useI18n } from '@/hooks/web/useI18n'
-import { apiLogin, apiLogout } from '@/api/login'
+import { apiLogin } from '@/api/login'
 import { useTagsViewStore } from './tagsView'
 import router from '@/router'
+import { apiGetUserInfo } from '@/api/user'
 
 interface UserState {
   userInfo?: UserType
@@ -17,6 +18,9 @@ interface UserState {
 }
 
 export const useUserStore = defineStore('user', {
+  persist: {
+    key: 'yafgo-user'
+  },
   state: (): UserState => {
     return {
       userInfo: undefined,
@@ -54,6 +58,7 @@ export const useUserStore = defineStore('user', {
     },
     setToken(token: string) {
       this.token = token
+      // setToken(token)
     },
     setUserInfo(userInfo?: UserType) {
       this.userInfo = userInfo
@@ -67,14 +72,12 @@ export const useUserStore = defineStore('user', {
         confirmButtonText: t('common.ok'),
         cancelButtonText: t('common.cancel'),
         type: 'warning'
+      }).then(async () => {
+        const res = await this.logout()
+        if (res) {
+          this.reset()
+        }
       })
-        .then(async () => {
-          const res = await apiLogout().catch(() => {})
-          if (res) {
-            this.reset()
-          }
-        })
-        .catch(() => {})
     },
     reset() {
       const tagsViewStore = useTagsViewStore()
@@ -92,7 +95,6 @@ export const useUserStore = defineStore('user', {
     },
     async login(formData: UserLoginType, rememberMe?: boolean) {
       const res = await apiLogin(formData)
-      console.log(111222, res)
       if (!res) {
         return res
       }
@@ -105,6 +107,7 @@ export const useUserStore = defineStore('user', {
       } else {
         this.setLoginInfo(undefined)
       }
+      this.setToken(res.data?.token || '')
       this.setRememberMe(rememberMe || false)
       this.setUserInfo(res.data)
       return res
@@ -113,9 +116,12 @@ export const useUserStore = defineStore('user', {
       // await apiLogout()
       this.reset()
       return true
+    },
+    async fetchUserInfo() {
+      const res = await apiGetUserInfo()
+      this.setUserInfo(res.data)
     }
-  },
-  persist: true
+  }
 })
 
 export const useUserStoreWithOut = () => {
