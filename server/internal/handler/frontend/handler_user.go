@@ -85,7 +85,7 @@ func (h *userHandler) LoginByUsername(ctx *gin.Context) {
 
 	user, err := h.SvcUser.LoginByUsername(ctx, reqData)
 	if err != nil {
-		h.Resp().ErrorWithMsg(ctx, "登录失败", err)
+		h.Resp().ErrorWithMsg(ctx, "密码不正确", err)
 		return
 	}
 
@@ -97,11 +97,9 @@ func (h *userHandler) LoginByUsername(ctx *gin.Context) {
 	}
 
 	h.Resp().SuccessWithMsg(ctx, "登录成功", gin.H{
-		"token": token,
-		"user": gin.H{
-			"id":       user.ID,
-			"username": user.Username,
-		},
+		"token":    token,
+		"id":       user.ID,
+		"username": user.Username,
 	})
 }
 
