@@ -1,8 +1,8 @@
 package model
 
 type Route struct {
-	ID       int64     `json:"-"`                  //
-	Pid      int64     `json:"-"`                  //
+	ID       int64     `json:"id"`                 // 菜单id
+	Pid      int64     `json:"pid"`                // 菜单父id
 	Path     string    `json:"path"`               //
 	Name     string    `json:"name"`               // 路由名, 必须和前端路由定义一致
 	Redirect string    `json:"redirect,omitempty"` //

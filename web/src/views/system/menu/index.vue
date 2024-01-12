@@ -2,7 +2,7 @@
   <div class="container">
     <Breadcrumb :items="['menu.system', 'menu.system.menu']" />
     <a-card class="general-card">
-      <a-row style="margin-bottom: 16px; padding-top: 16px">
+      <a-row style="padding: 16px 0 10px 0; align-items: center">
         <a-col :span="12">
           <a-space>
             <a-button type="primary">
@@ -40,27 +40,17 @@
       <a-table
         row-key="id"
         :loading="loading"
-        :pagination="pagination"
         :columns="(cloneColumns as TableColumnData[])"
         :data="renderData"
-        :bordered="false"
+        :bordered="{ cell: true }"
         :size="size"
-        @page-change="onPageChange"
+        :default-expand-all-rows="true"
       >
-        <template #index="{ rowIndex }">
-          {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
+        <template #name="{ record }">
+          {{ $t(record?.meta?.locale) }}
         </template>
-        <template #label="{ record }">
-          {{ $t(record.label) }}
-        </template>
-        <template #createdAt="{ record }">
-          {{ TimestampToDatetime(record.created_at) }}
-        </template>
-        <template #updatedAt="{ record }">
-          {{ TimestampToDatetime(record.updated_at) }}
-        </template>
-        <template #operations>
-          <a-button v-permission="['admin']" type="text" size="small">
+        <template #actions>
+          <a-button type="text" size="small">
             {{ $t('searchTable.columns.operations.view') }}
           </a-button>
         </template>
@@ -70,36 +60,25 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, reactive, watch, nextTick } from 'vue';
-  import { useI18n } from 'vue-i18n';
+  import { ApiGetList, MenuItem, MenuParams } from '@/api/menu';
   import useLoading from '@/hooks/loading';
-  import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
-  import { ApiGetList } from '@/api/menu';
-  import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import cloneDeep from 'lodash/cloneDeep';
-  import Sortable from 'sortablejs';
-  import { TimestampToDatetime } from '@/utils/time';
+  import { computed, ref, watch } from 'vue';
+  import { useI18n } from 'vue-i18n';
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
 
   const { loading, setLoading } = useLoading(true);
   const { t } = useI18n();
-  const renderData = ref<PolicyRecord[]>([]);
+  const renderData = ref<MenuItem[]>([]);
   const formModel = ref();
   const cloneColumns = ref<Column[]>([]);
   const showColumns = ref<Column[]>([]);
 
+  /** 表格显示密度 */
   const size = ref<SizeProps>('medium');
-
-  const basePagination: Pagination = {
-    current: 1,
-    pageSize: 20,
-  };
-  const pagination = reactive({
-    ...basePagination,
-  });
   const densityList = computed(() => [
     {
       name: t('searchTable.size.mini'),
@@ -118,20 +97,27 @@
       value: 'large',
     },
   ]);
+  /** 切换表格显示密度 */
+  const handleSelectDensity = (
+    val: string | number | Record<string, any> | undefined,
+    e: Event
+  ) => {
+    size.value = val as SizeProps;
+  };
+
   const columns = computed<TableColumnData[]>(() => [
     {
-      title: t('searchTable.columns.index'),
-      dataIndex: 'index',
-      slotName: 'index',
+      title: '序号',
+      dataIndex: 'id',
     },
     {
       title: '菜单名称',
-      dataIndex: 'label',
-      slotName: 'label',
+      dataIndex: 'name',
+      slotName: 'name',
     },
     {
       title: '图标',
-      dataIndex: 'icon',
+      dataIndex: 'meta.icon',
       slotName: 'icon',
     },
     {
@@ -142,36 +128,24 @@
       title: '路由地址',
       dataIndex: 'path',
     },
-    {
+    /* {
       title: 'meta',
       dataIndex: 'meta',
-    },
+    }, */
     {
-      title: '创建时间',
-      dataIndex: 'created_at',
-      slotName: 'createdAt',
-    },
-    {
-      title: '修改时间',
-      dataIndex: 'updated_at',
-      slotName: 'updatedAt',
-    },
-    {
-      title: t('searchTable.columns.operations'),
-      dataIndex: 'operations',
-      slotName: 'operations',
+      title: '操作',
+      dataIndex: 'actions',
+      slotName: 'actions',
     },
   ]);
 
   const fetchData = async (
-    params: PolicyParams = { current: 1, pageSize: 20 }
+    params: MenuParams = { current: 1, pageSize: 20 }
   ) => {
     setLoading(true);
     try {
-      const { data } = await ApiGetList(params);
-      renderData.value = data.list;
-      pagination.current = params.current;
-      pagination.total = data.total;
+      const { data } = await ApiGetList();
+      renderData.value = data;
     } catch (err) {
       // you can report use errorHandler or other
     } finally {
@@ -181,54 +155,11 @@
 
   const search = () => {
     fetchData({
-      ...basePagination,
       ...formModel.value,
-    } as unknown as PolicyParams);
-  };
-  const onPageChange = (current: number) => {
-    fetchData({ ...basePagination, current });
+    } as unknown as MenuParams);
   };
 
   fetchData();
-
-  const handleSelectDensity = (
-    val: string | number | Record<string, any> | undefined,
-    e: Event
-  ) => {
-    size.value = val as SizeProps;
-  };
-
-  const handleChange = (
-    checked: boolean | (string | boolean | number)[],
-    column: Column,
-    index: number
-  ) => {
-    if (!checked) {
-      cloneColumns.value = showColumns.value.filter(
-        (item) => item.dataIndex !== column.dataIndex
-      );
-    } else {
-      cloneColumns.value.splice(index, 0, column);
-    }
-  };
-
-  const exchangeArray = <T extends Array<any>>(
-    array: T,
-    beforeIdx: number,
-    newIdx: number,
-    isDeep = false
-  ): T => {
-    const newArray = isDeep ? cloneDeep(array) : array;
-    if (beforeIdx > -1 && newIdx > -1) {
-      // 先替换后面的，然后拿到替换的结果替换前面的
-      newArray.splice(
-        beforeIdx,
-        1,
-        newArray.splice(newIdx, 1, newArray[beforeIdx]).pop()
-      );
-    }
-    return newArray;
-  };
 
   watch(
     () => columns.value,
@@ -267,14 +198,5 @@
   .active {
     color: #0960bd;
     background-color: #e3f4fc;
-  }
-  .setting {
-    display: flex;
-    align-items: center;
-    width: 200px;
-    .title {
-      margin-left: 12px;
-      cursor: pointer;
-    }
   }
 </style>

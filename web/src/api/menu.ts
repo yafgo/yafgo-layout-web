@@ -1,7 +1,20 @@
 import axios from 'axios';
 
+export interface MenuItem {
+  id: number;
+  pid: number;
+  path: string;
+  name: string;
+  children: MenuItem[];
+}
+
+export interface MenuParams extends Partial<MenuItem> {
+  current: number;
+  pageSize: number;
+}
+
 export function ApiGetList() {
-  return axios.get('/api/admin/menu/menus');
+  return axios.get<MenuItem[]>('/api/admin/menu');
 }
 
 export function ApiGetDetail(id: number) {

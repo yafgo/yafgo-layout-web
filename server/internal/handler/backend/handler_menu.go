@@ -146,7 +146,7 @@ func (h *menuHandler) Delete(ctx *gin.Context) {
 // Delete implements MenuHandler.
 //
 //	@Summary		后台菜单
-//	@Description	暂时仅支持二级
+//	@Description	支持多级
 //	@Tags			后台
 //	@Success		200	{object}	any	"{"code": 200, "data": [...]}"
 //	@Security		ApiToken
