@@ -41,11 +41,24 @@ const defaultResponseInterceptors = (response: AxiosResponse) => {
   } else if (response.data.code === SUCCESS_CODE) {
     return response.data
   } else {
-    ElMessage.error(response?.data?.message)
+    /* ElMessage.error(response?.data?.message)
     if (response?.data?.code === 401) {
       const userStore = useUserStoreWithOut()
       userStore.logout()
+    } */
+    const data = response.data
+    switch (response.status) {
+      case 401:
+        ElMessage.error('未登录或登录已过期')
+        const userStore = useUserStoreWithOut()
+        userStore.logout().then(() => {
+          window.location.reload()
+        })
+      default:
+        ElMessage.error(data?.msg || data?.message)
+        break
     }
+    return response.data
   }
 }
 

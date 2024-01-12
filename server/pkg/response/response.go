@@ -64,6 +64,9 @@ func (p *ApiResponse) ErrorWithMsg(ctx *gin.Context, msg string, err ...error) {
 	}
 
 	p.resp.Success = false
+	if p.resp.Code == 0 {
+		p.resp.Code = 1 // defaultError
+	}
 	ctx.JSON(http.StatusOK, p.resp)
 }
 

@@ -3,7 +3,7 @@ import { store } from '../index'
 import { UserLoginType, UserType } from '@/api/login/types'
 import { ElMessageBox } from 'element-plus'
 import { useI18n } from '@/hooks/web/useI18n'
-import { loginOutApi } from '@/api/login'
+import { apiLogin, apiLogout } from '@/api/login'
 import { useTagsViewStore } from './tagsView'
 import router from '@/router'
 
@@ -69,7 +69,7 @@ export const useUserStore = defineStore('user', {
         type: 'warning'
       })
         .then(async () => {
-          const res = await loginOutApi().catch(() => {})
+          const res = await apiLogout().catch(() => {})
           if (res) {
             this.reset()
           }
@@ -84,14 +84,35 @@ export const useUserStore = defineStore('user', {
       this.setRoleRouters([])
       router.replace('/login')
     },
-    logout() {
-      this.reset()
-    },
     setRememberMe(rememberMe: boolean) {
       this.rememberMe = rememberMe
     },
     setLoginInfo(loginInfo: UserLoginType | undefined) {
       this.loginInfo = loginInfo
+    },
+    async login(formData: UserLoginType, rememberMe?: boolean) {
+      const res = await apiLogin(formData)
+      console.log(111222, res)
+      if (!res) {
+        return res
+      }
+      // 记住我
+      if (rememberMe) {
+        this.setLoginInfo({
+          username: formData.username,
+          password: formData.password
+        })
+      } else {
+        this.setLoginInfo(undefined)
+      }
+      this.setRememberMe(rememberMe || false)
+      this.setUserInfo(res.data)
+      return res
+    },
+    async logout() {
+      // await apiLogout()
+      this.reset()
+      return true
     }
   },
   persist: true
