@@ -5,15 +5,16 @@ import { Layout } from '@/utils/routerHelper'
 import { useI18n } from '@/hooks/web/useI18n'
 import { NO_RESET_WHITE_LIST } from '@/constants'
 import { appRoutes, demoRoutes } from './routes'
+import { ROUTE_REDIRECT, ROUTE_NOT_FOUND } from './routes/base'
 
 const { t } = useI18n()
 
 export const constantRouterMap: AppRouteRecordRaw[] = [
   {
     path: '/',
-    component: Layout,
     redirect: '/dashboard/analysis',
     name: 'Root',
+    component: Layout,
     meta: {
       hidden: true
     }
@@ -37,24 +38,16 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
   },
   {
     path: '/login',
-    component: () => import('@/views/Login/Login.vue'),
     name: 'Login',
+    component: () => import('@/views/Login/Login.vue'),
     meta: {
       hidden: true,
       title: t('router.login'),
       noTagsView: true
     }
   },
-  {
-    path: '/404',
-    component: () => import('@/views/Error/404.vue'),
-    name: 'NoFind',
-    meta: {
-      hidden: true,
-      title: '404',
-      noTagsView: true
-    }
-  }
+  ROUTE_REDIRECT,
+  ROUTE_NOT_FOUND
 ]
 
 export const asyncRouterMap: AppRouteRecordRaw[] = [
