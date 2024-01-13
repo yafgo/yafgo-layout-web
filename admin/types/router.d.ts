@@ -30,6 +30,8 @@ import { defineComponent } from 'vue'
     canTo: true               设置为true即使hidden为true，也依然可以进行路由跳转(默认 false)
 
     permission: ['edit','add', 'delete']    设置该路由的权限
+
+    order: 0                  在一级菜单中的排序
   }
 **/
 
@@ -45,6 +47,7 @@ interface RouteMetaCustom extends Record<string | number | symbol, unknown> {
   noTagsView?: boolean
   canTo?: boolean
   permission?: string[]
+  order?: number
 }
 
 declare module 'vue-router' {
