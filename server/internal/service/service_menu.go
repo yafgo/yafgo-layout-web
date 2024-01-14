@@ -87,9 +87,9 @@ func (s *menuService) GetRoutes(ctx context.Context) (routes []*model.Route, err
 			Name:     v.Name,
 			Redirect: v.Redirect,
 			Meta: model.RouteMeta{
-				Icon:   v.Icon,
-				Locale: v.Label,
-				Order:  v.Order,
+				Icon:  v.Icon,
+				Title: v.Label,
+				Order: v.Order,
 			},
 		}
 		rMap[v.ID] = item

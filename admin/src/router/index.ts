@@ -6,6 +6,7 @@ import { useI18n } from '@/hooks/web/useI18n'
 import { NO_RESET_WHITE_LIST } from '@/constants'
 import { appRoutes, demoRoutes } from './routes'
 import { ROUTE_REDIRECT, ROUTE_NOT_FOUND } from './routes/base'
+import createRouteGuard from './guard'
 
 const { t } = useI18n()
 
@@ -46,13 +47,15 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
       noTagsView: true
     }
   },
+  ...(demoRoutes as AppRouteRecordRaw[]),
+  ...(appRoutes as AppRouteRecordRaw[]),
   ROUTE_REDIRECT,
   ROUTE_NOT_FOUND
 ]
 
 export const asyncRouterMap: AppRouteRecordRaw[] = [
-  ...(demoRoutes as AppRouteRecordRaw[]),
-  ...(appRoutes as AppRouteRecordRaw[])
+  // ...(demoRoutes as AppRouteRecordRaw[]),
+  // ...(appRoutes as AppRouteRecordRaw[])
 ]
 
 const router = createRouter({
@@ -61,6 +64,8 @@ const router = createRouter({
   routes: constantRouterMap as RouteRecordRaw[],
   scrollBehavior: () => ({ left: 0, top: 0 })
 })
+
+createRouteGuard(router)
 
 export const resetRouter = (): void => {
   router.getRoutes().forEach((route) => {

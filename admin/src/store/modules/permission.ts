@@ -7,6 +7,7 @@ import {
 } from '@/utils/routerHelper'
 import { store } from '../index'
 import { cloneDeep } from 'lodash-es'
+import { apiGetMenuList } from '@/api/menu'
 
 export interface PermissionState {
   routers: AppRouteRecordRaw[]
@@ -69,6 +70,14 @@ export const usePermissionStore = defineStore('permission', {
         this.routers = cloneDeep(constantRouterMap).concat(routerMap)
         resolve()
       })
+    },
+    async fetchServerRoutes() {
+      const res = await apiGetMenuList()
+      if (!res || !res.success) {
+        return res
+      }
+      this.routers = res.data
+      return res
     },
     setIsAddRouters(state: boolean): void {
       this.isAddRouters = state

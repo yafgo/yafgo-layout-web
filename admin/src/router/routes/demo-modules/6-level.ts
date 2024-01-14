@@ -1,5 +1,5 @@
 import { useI18n } from '@/hooks/web/useI18n'
-import { Layout, getParentLayout } from '@/utils/routerHelper'
+import { Layout } from '@/utils/routerHelper'
 
 const { t } = useI18n()
 
@@ -16,7 +16,7 @@ const RouteItem: AppRouteRecordRaw = {
     {
       path: 'menu1',
       name: 'Menu1',
-      component: getParentLayout(),
+      // component: getParentLayout(),
       redirect: '/level/menu1/menu1-1/menu1-1-1',
       meta: {
         title: t('router.menu1')
@@ -25,7 +25,7 @@ const RouteItem: AppRouteRecordRaw = {
         {
           path: 'menu1-1',
           name: 'Menu11',
-          component: getParentLayout(),
+          // component: getParentLayout(),
           redirect: '/level/menu1/menu1-1/menu1-1-1',
           meta: {
             title: t('router.menu11'),

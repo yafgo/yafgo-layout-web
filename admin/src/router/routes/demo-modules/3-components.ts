@@ -1,5 +1,5 @@
 import { useI18n } from '@/hooks/web/useI18n'
-import { Layout, getParentLayout } from '@/utils/routerHelper'
+import { Layout } from '@/utils/routerHelper'
 
 const { t } = useI18n()
 
@@ -15,7 +15,7 @@ const RouteItem: AppRouteRecordRaw = {
   children: [
     {
       path: 'form',
-      component: getParentLayout(),
+      // component: getParentLayout(),
       redirect: '/components/form/default-form',
       name: 'Form',
       meta: {
@@ -43,7 +43,6 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'table',
-      component: getParentLayout(),
       redirect: '/components/table/default-table',
       name: 'TableDemo',
       meta: {
@@ -103,7 +102,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'editor-demo',
-      component: getParentLayout(),
+      // component: getParentLayout(),
       redirect: '/components/editor-demo/editor',
       name: 'EditorDemo',
       meta: {

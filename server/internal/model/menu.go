@@ -13,7 +13,7 @@ type Route struct {
 type RouteMeta struct {
 	RequiresAuth       bool     `json:"requiresAuth,omitempty"`
 	Icon               string   `json:"icon"`                         // The icon show in the side menu
-	Locale             string   `json:"locale"`                       // The locale name show in side menu and breadcrumb
+	Title              string   `json:"title"`                        // The title name show in side menu and breadcrumb
 	HideInMenu         bool     `json:"hideInMenu,omitempty"`         // If true, it is not displayed in the side menu
 	HideChildrenInMenu bool     `json:"hideChildrenInMenu,omitempty"` // if set true, the children are not displayed in the side menu
 	ActiveMenu         string   `json:"activeMenu,omitempty"`         // if set name, the menu will be highlighted according to the name you set
