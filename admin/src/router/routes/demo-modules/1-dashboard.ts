@@ -17,7 +17,7 @@ const RouteItem: AppRouteRecordRaw = {
   children: [
     {
       path: 'analysis',
-      component: () => import('@/views/Dashboard/Analysis.vue'),
+      component: () => import('@/views/demo/Dashboard/Analysis.vue'),
       name: 'Analysis',
       meta: {
         title: t('router.analysis'),
@@ -27,7 +27,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'workplace',
-      component: () => import('@/views/Dashboard/Workplace.vue'),
+      component: () => import('@/views/demo/Dashboard/Workplace.vue'),
       name: 'Workplace',
       meta: {
         title: t('router.workplace'),

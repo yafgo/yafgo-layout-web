@@ -16,7 +16,7 @@ const RouteItem: AppRouteRecordRaw = {
   children: [
     {
       path: 'example-dialog',
-      component: () => import('@/views/Example/Dialog/ExampleDialog.vue'),
+      component: () => import('@/views/demo/Example/Dialog/ExampleDialog.vue'),
       name: 'ExampleDialog',
       meta: {
         title: t('router.exampleDialog')
@@ -24,7 +24,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'example-page',
-      component: () => import('@/views/Example/Page/ExamplePage.vue'),
+      component: () => import('@/views/demo/Example/Page/ExamplePage.vue'),
       name: 'ExamplePage',
       meta: {
         title: t('router.examplePage')
@@ -32,7 +32,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'example-add',
-      component: () => import('@/views/Example/Page/ExampleAdd.vue'),
+      component: () => import('@/views/demo/Example/Page/ExampleAdd.vue'),
       name: 'ExampleAdd',
       meta: {
         title: t('router.exampleAdd'),
@@ -45,7 +45,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'example-edit',
-      component: () => import('@/views/Example/Page/ExampleEdit.vue'),
+      component: () => import('@/views/demo/Example/Page/ExampleEdit.vue'),
       name: 'ExampleEdit',
       meta: {
         title: t('router.exampleEdit'),
@@ -58,7 +58,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'example-detail',
-      component: () => import('@/views/Example/Page/ExampleDetail.vue'),
+      component: () => import('@/views/demo/Example/Page/ExampleDetail.vue'),
       name: 'ExampleDetail',
       meta: {
         title: t('router.exampleDetail'),

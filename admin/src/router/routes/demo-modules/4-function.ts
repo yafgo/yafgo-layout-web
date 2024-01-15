@@ -16,7 +16,7 @@ const RouteItem: AppRouteRecordRaw = {
   children: [
     {
       path: 'multiple-tabs',
-      component: () => import('@/views/Function/MultipleTabs.vue'),
+      component: () => import('@/views/demo/Function/MultipleTabs.vue'),
       name: 'MultipleTabs',
       meta: {
         title: t('router.multipleTabs')
@@ -24,7 +24,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'multiple-tabs-demo/:id',
-      component: () => import('@/views/Function/MultipleTabsDemo.vue'),
+      component: () => import('@/views/demo/Function/MultipleTabsDemo.vue'),
       name: 'MultipleTabsDemo',
       meta: {
         hidden: true,
@@ -35,7 +35,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'request',
-      component: () => import('@/views/Function/Request.vue'),
+      component: () => import('@/views/demo/Function/Request.vue'),
       name: 'Request',
       meta: {
         title: t('router.request')
@@ -43,7 +43,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'test',
-      component: () => import('@/views/Function/Test.vue'),
+      component: () => import('@/views/demo/Function/Test.vue'),
       name: 'Test',
       meta: {
         title: t('router.permission'),

@@ -32,7 +32,7 @@ const RouteItem: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/Guide/Guide.vue'),
+        component: () => import('@/views/demo/Guide/Guide.vue'),
         name: 'GuideDemo',
         meta: {
           title: t('router.guide'),

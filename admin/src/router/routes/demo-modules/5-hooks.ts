@@ -13,7 +13,7 @@ const RouteItem: AppRouteRecordRaw = {
   children: [
     {
       path: 'useWatermark',
-      component: () => import('@/views/hooks/useWatermark.vue'),
+      component: () => import('@/views/demo/hooks/useWatermark.vue'),
       name: 'UseWatermark',
       meta: {
         title: 'useWatermark'
@@ -21,7 +21,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'useTagsView',
-      component: () => import('@/views/hooks/useTagsView.vue'),
+      component: () => import('@/views/demo/hooks/useTagsView.vue'),
       name: 'UseTagsView',
       meta: {
         title: 'useTagsView'
@@ -29,7 +29,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'useValidator',
-      component: () => import('@/views/hooks/useValidator.vue'),
+      component: () => import('@/views/demo/hooks/useValidator.vue'),
       name: 'UseValidator',
       meta: {
         title: 'useValidator'
@@ -37,7 +37,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'useCrudSchemas',
-      component: () => import('@/views/hooks/useCrudSchemas.vue'),
+      component: () => import('@/views/demo/hooks/useCrudSchemas.vue'),
       name: 'UseCrudSchemas',
       meta: {
         title: 'useCrudSchemas'
@@ -45,7 +45,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'useClipboard',
-      component: () => import('@/views/hooks/useClipboard.vue'),
+      component: () => import('@/views/demo/hooks/useClipboard.vue'),
       name: 'UseClipboard',
       meta: {
         title: 'useClipboard'
@@ -53,7 +53,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'useNetwork',
-      component: () => import('@/views/hooks/useNetwork.vue'),
+      component: () => import('@/views/demo/hooks/useNetwork.vue'),
       name: 'UseNetwork',
       meta: {
         title: 'useNetwork'

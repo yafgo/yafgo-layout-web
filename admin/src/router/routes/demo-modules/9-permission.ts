@@ -17,7 +17,7 @@ const RouteItem: AppRouteRecordRaw = {
   children: [
     {
       path: 'department',
-      component: () => import('@/views/Authorization/Department/Department.vue'),
+      component: () => import('@/views/demo/Authorization/Department/Department.vue'),
       name: 'Department',
       meta: {
         title: t('router.department')
@@ -25,7 +25,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'user',
-      component: () => import('@/views/Authorization/User/User.vue'),
+      component: () => import('@/views/demo/Authorization/User/User.vue'),
       name: 'User',
       meta: {
         title: t('router.user')
@@ -33,7 +33,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'menu',
-      component: () => import('@/views/Authorization/Menu/Menu.vue'),
+      component: () => import('@/views/demo/Authorization/Menu/Menu.vue'),
       name: 'Menu',
       meta: {
         title: t('router.menuManagement')
@@ -41,7 +41,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'role',
-      component: () => import('@/views/Authorization/Role/Role.vue'),
+      component: () => import('@/views/demo/Authorization/Role/Role.vue'),
       name: 'Role',
       meta: {
         title: t('router.role')

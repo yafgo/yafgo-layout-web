@@ -35,7 +35,7 @@ const RouteItem: AppRouteRecordRaw = {
             {
               path: 'menu1-1-1',
               name: 'Menu111',
-              component: () => import('@/views/Level/Menu111.vue'),
+              component: () => import('@/views/demo/Level/Menu111.vue'),
               meta: {
                 title: t('router.menu111')
               }
@@ -45,7 +45,7 @@ const RouteItem: AppRouteRecordRaw = {
         {
           path: 'menu1-2',
           name: 'Menu12',
-          component: () => import('@/views/Level/Menu12.vue'),
+          component: () => import('@/views/demo/Level/Menu12.vue'),
           meta: {
             title: t('router.menu12')
           }
@@ -55,7 +55,7 @@ const RouteItem: AppRouteRecordRaw = {
     {
       path: 'menu2',
       name: 'Menu2',
-      component: () => import('@/views/Level/Menu2.vue'),
+      component: () => import('@/views/demo/Level/Menu2.vue'),
       meta: {
         title: t('router.menu2')
       }

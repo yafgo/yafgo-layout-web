@@ -25,7 +25,7 @@ const RouteItem: AppRouteRecordRaw = {
       children: [
         {
           path: 'default-form',
-          component: () => import('@/views/Components/Form/DefaultForm.vue'),
+          component: () => import('@/views/demo/Components/Form/DefaultForm.vue'),
           name: 'DefaultForm',
           meta: {
             title: t('router.defaultForm')
@@ -33,7 +33,7 @@ const RouteItem: AppRouteRecordRaw = {
         },
         {
           path: 'use-form',
-          component: () => import('@/views/Components/Form/UseFormDemo.vue'),
+          component: () => import('@/views/demo/Components/Form/UseFormDemo.vue'),
           name: 'UseForm',
           meta: {
             title: 'UseForm'
@@ -52,7 +52,7 @@ const RouteItem: AppRouteRecordRaw = {
       children: [
         {
           path: 'default-table',
-          component: () => import('@/views/Components/Table/DefaultTable.vue'),
+          component: () => import('@/views/demo/Components/Table/DefaultTable.vue'),
           name: 'DefaultTable',
           meta: {
             title: t('router.defaultTable')
@@ -60,7 +60,7 @@ const RouteItem: AppRouteRecordRaw = {
         },
         {
           path: 'use-table',
-          component: () => import('@/views/Components/Table/UseTableDemo.vue'),
+          component: () => import('@/views/demo/Components/Table/UseTableDemo.vue'),
           name: 'UseTable',
           meta: {
             title: 'UseTable'
@@ -68,7 +68,7 @@ const RouteItem: AppRouteRecordRaw = {
         },
         {
           path: 'tree-table',
-          component: () => import('@/views/Components/Table/TreeTable.vue'),
+          component: () => import('@/views/demo/Components/Table/TreeTable.vue'),
           name: 'TreeTable',
           meta: {
             title: t('router.treeTable')
@@ -76,7 +76,7 @@ const RouteItem: AppRouteRecordRaw = {
         },
         {
           path: 'table-image-preview',
-          component: () => import('@/views/Components/Table/TableImagePreview.vue'),
+          component: () => import('@/views/demo/Components/Table/TableImagePreview.vue'),
           name: 'TableImagePreview',
           meta: {
             title: t('router.PicturePreview')
@@ -84,7 +84,7 @@ const RouteItem: AppRouteRecordRaw = {
         },
         {
           path: 'table-video-preview',
-          component: () => import('@/views/Components/Table/TableVideoPreview.vue'),
+          component: () => import('@/views/demo/Components/Table/TableVideoPreview.vue'),
           name: 'TableVideoPreview',
           meta: {
             title: t('router.tableVideoPreview')
@@ -92,7 +92,7 @@ const RouteItem: AppRouteRecordRaw = {
         },
         {
           path: 'card-table',
-          component: () => import('@/views/Components/Table/CardTable.vue'),
+          component: () => import('@/views/demo/Components/Table/CardTable.vue'),
           name: 'CardTable',
           meta: {
             title: t('router.cardTable')
@@ -112,7 +112,7 @@ const RouteItem: AppRouteRecordRaw = {
       children: [
         {
           path: 'editor',
-          component: () => import('@/views/Components/Editor/Editor.vue'),
+          component: () => import('@/views/demo/Components/Editor/Editor.vue'),
           name: 'Editor',
           meta: {
             title: t('router.richText')
@@ -120,7 +120,7 @@ const RouteItem: AppRouteRecordRaw = {
         },
         {
           path: 'json-editor',
-          component: () => import('@/views/Components/Editor/JsonEditor.vue'),
+          component: () => import('@/views/demo/Components/Editor/JsonEditor.vue'),
           name: 'JsonEditor',
           meta: {
             title: t('router.jsonEditor')
@@ -130,7 +130,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'search',
-      component: () => import('@/views/Components/Search.vue'),
+      component: () => import('@/views/demo/Components/Search.vue'),
       name: 'Search',
       meta: {
         title: t('router.search')
@@ -138,7 +138,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'descriptions',
-      component: () => import('@/views/Components/Descriptions.vue'),
+      component: () => import('@/views/demo/Components/Descriptions.vue'),
       name: 'Descriptions',
       meta: {
         title: t('router.descriptions')
@@ -146,7 +146,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'image-viewer',
-      component: () => import('@/views/Components/ImageViewer.vue'),
+      component: () => import('@/views/demo/Components/ImageViewer.vue'),
       name: 'ImageViewer',
       meta: {
         title: t('router.imageViewer')
@@ -154,7 +154,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'dialog',
-      component: () => import('@/views/Components/Dialog.vue'),
+      component: () => import('@/views/demo/Components/Dialog.vue'),
       name: 'Dialog',
       meta: {
         title: t('router.dialog')
@@ -162,7 +162,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'icon',
-      component: () => import('@/views/Components/Icon.vue'),
+      component: () => import('@/views/demo/Components/Icon.vue'),
       name: 'Icon',
       meta: {
         title: t('router.icon')
@@ -170,7 +170,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'icon-picker',
-      component: () => import('@/views/Components/IconPicker.vue'),
+      component: () => import('@/views/demo/Components/IconPicker.vue'),
       name: 'IconPicker',
       meta: {
         title: t('router.iconPicker')
@@ -178,7 +178,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'echart',
-      component: () => import('@/views/Components/Echart.vue'),
+      component: () => import('@/views/demo/Components/Echart.vue'),
       name: 'Echart',
       meta: {
         title: t('router.echart')
@@ -186,7 +186,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'count-to',
-      component: () => import('@/views/Components/CountTo.vue'),
+      component: () => import('@/views/demo/Components/CountTo.vue'),
       name: 'CountTo',
       meta: {
         title: t('router.countTo')
@@ -194,7 +194,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'qrcode',
-      component: () => import('@/views/Components/Qrcode.vue'),
+      component: () => import('@/views/demo/Components/Qrcode.vue'),
       name: 'Qrcode',
       meta: {
         title: t('router.qrcode')
@@ -202,7 +202,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'highlight',
-      component: () => import('@/views/Components/Highlight.vue'),
+      component: () => import('@/views/demo/Components/Highlight.vue'),
       name: 'Highlight',
       meta: {
         title: t('router.highlight')
@@ -210,7 +210,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'infotip',
-      component: () => import('@/views/Components/Infotip.vue'),
+      component: () => import('@/views/demo/Components/Infotip.vue'),
       name: 'Infotip',
       meta: {
         title: t('router.infotip')
@@ -218,7 +218,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'input-password',
-      component: () => import('@/views/Components/InputPassword.vue'),
+      component: () => import('@/views/demo/Components/InputPassword.vue'),
       name: 'InputPassword',
       meta: {
         title: t('router.inputPassword')
@@ -226,7 +226,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'waterfall',
-      component: () => import('@/views/Components/Waterfall.vue'),
+      component: () => import('@/views/demo/Components/Waterfall.vue'),
       name: 'waterfall',
       meta: {
         title: t('router.waterfall')
@@ -234,7 +234,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'image-cropping',
-      component: () => import('@/views/Components/ImageCropping.vue'),
+      component: () => import('@/views/demo/Components/ImageCropping.vue'),
       name: 'ImageCropping',
       meta: {
         title: t('router.imageCropping')
@@ -242,7 +242,7 @@ const RouteItem: AppRouteRecordRaw = {
     },
     {
       path: 'video-player',
-      component: () => import('@/views/Components/VideoPlayer.vue'),
+      component: () => import('@/views/demo/Components/VideoPlayer.vue'),
       name: 'VideoPlayer',
       meta: {
         title: t('router.videoPlayer')
