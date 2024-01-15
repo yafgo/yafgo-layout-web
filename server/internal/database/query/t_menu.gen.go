@@ -17,7 +17,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"yafgo/yafgo-layout/internal/model"
+	"yafgo/yafgo-layout/internal/database/model"
 )
 
 func newMenu(db *gorm.DB, opts ...gen.DOOption) menu {
@@ -36,6 +36,7 @@ func newMenu(db *gorm.DB, opts ...gen.DOOption) menu {
 	_menu.Icon = field.NewString(tableName, "icon")
 	_menu.Redirect = field.NewString(tableName, "redirect")
 	_menu.Order = field.NewInt32(tableName, "order")
+	_menu.Status = field.NewBool(tableName, "status")
 	_menu.Meta = field.NewString(tableName, "meta")
 	_menu.CreatedAt = field.NewTime(tableName, "created_at")
 	_menu.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -58,6 +59,7 @@ type menu struct {
 	Icon      field.String // 菜单图标
 	Redirect  field.String // 重定向地址
 	Order     field.Int32  // 排序
+	Status    field.Bool   // 状态:1-启用,0-禁用
 	Meta      field.String // meta信息
 	CreatedAt field.Time
 	UpdatedAt field.Time
@@ -86,6 +88,7 @@ func (m *menu) updateTableName(table string) *menu {
 	m.Icon = field.NewString(table, "icon")
 	m.Redirect = field.NewString(table, "redirect")
 	m.Order = field.NewInt32(table, "order")
+	m.Status = field.NewBool(table, "status")
 	m.Meta = field.NewString(table, "meta")
 	m.CreatedAt = field.NewTime(table, "created_at")
 	m.UpdatedAt = field.NewTime(table, "updated_at")
@@ -112,7 +115,7 @@ func (m *menu) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *menu) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 12)
+	m.fieldMap = make(map[string]field.Expr, 13)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["pid"] = m.Pid
 	m.fieldMap["path"] = m.Path
@@ -121,6 +124,7 @@ func (m *menu) fillFieldMap() {
 	m.fieldMap["icon"] = m.Icon
 	m.fieldMap["redirect"] = m.Redirect
 	m.fieldMap["order"] = m.Order
+	m.fieldMap["status"] = m.Status
 	m.fieldMap["meta"] = m.Meta
 	m.fieldMap["created_at"] = m.CreatedAt
 	m.fieldMap["updated_at"] = m.UpdatedAt

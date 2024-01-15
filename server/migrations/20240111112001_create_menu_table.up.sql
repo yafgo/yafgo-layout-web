@@ -7,6 +7,7 @@ CREATE TABLE `t_menu` (
   `icon` varchar(100) NOT NULL DEFAULT '' COMMENT '菜单图标',
   `redirect` varchar(255) NOT NULL DEFAULT '' COMMENT '重定向地址',
   `order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态:1-启用,0-禁用',
   `meta` json DEFAULT null COMMENT 'meta信息',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

@@ -1,7 +1,7 @@
 package service
 
 import (
-	"yafgo/yafgo-layout/internal/query"
+	"yafgo/yafgo-layout/internal/database/query"
 	"yafgo/yafgo-layout/pkg/jwtutil"
 	"yafgo/yafgo-layout/pkg/sys/ylog"
 

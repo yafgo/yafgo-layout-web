@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"yafgo/yafgo-layout/internal/query"
+	"yafgo/yafgo-layout/internal/database/query"
 	"yafgo/yafgo-layout/pkg/sys/ylog"
 
 	"github.com/redis/go-redis/v9"

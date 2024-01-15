@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"yafgo/yafgo-layout/internal/model"
+	"yafgo/yafgo-layout/internal/database/model"
 	"yafgo/yafgo-layout/pkg/database"
 
 	"github.com/pkg/errors"

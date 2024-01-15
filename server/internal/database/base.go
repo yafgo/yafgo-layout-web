@@ -17,8 +17,8 @@ func addApplyFuncs(funcs ...func(g *gen.Generator)) {
 // RunGenerate 生成 gorm 所需的 model 和 query
 func RunGenerate(dsn string) {
 	g := gen.NewGenerator(gen.Config{
-		OutPath:      filepath.Join("internal", "query"),
-		ModelPkgPath: filepath.Join("internal", "model"),
+		OutPath:      filepath.Join("internal", "database", "query"),
+		ModelPkgPath: filepath.Join("internal", "database", "model"),
 		Mode:         gen.WithDefaultQuery | gen.WithQueryInterface,
 	})
 

@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"yafgo/yafgo-layout/internal/model"
+	"yafgo/yafgo-layout/internal/database/model"
 )
 
 type MenuService interface {

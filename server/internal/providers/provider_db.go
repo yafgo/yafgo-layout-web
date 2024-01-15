@@ -3,7 +3,7 @@ package providers
 import (
 	"context"
 	"time"
-	"yafgo/yafgo-layout/internal/query"
+	"yafgo/yafgo-layout/internal/database/query"
 	"yafgo/yafgo-layout/pkg/cache"
 	"yafgo/yafgo-layout/pkg/database"
 	"yafgo/yafgo-layout/pkg/logger"

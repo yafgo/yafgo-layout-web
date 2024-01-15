@@ -1,8 +1,8 @@
 package backend
 
 import (
+	"yafgo/yafgo-layout/internal/database/model"
 	"yafgo/yafgo-layout/internal/handler"
-	"yafgo/yafgo-layout/internal/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
@@ -73,7 +73,7 @@ func (h *menuHandler) Detail(ctx *gin.Context) {
 //	@Summary	Menu 新增
 //	@Description
 //	@Tags		后台
-//	@Param		data	body		model.Menu	true	"请求参数"
+//	@Param		data	body		model.Route	true	"请求参数"
 //	@Success	200		{object}	any			"{"code": 200, "data": [...]}"
 //	@Security	ApiToken
 //	@Router		/admin/menu/menus [post]
@@ -99,19 +99,31 @@ func (h *menuHandler) Create(ctx *gin.Context) {
 //	@Description
 //	@Tags		后台
 //	@Param		id		path		int			true	"id"
-//	@Param		data	body		model.Menu	true	"请求参数"
+//	@Param		data	body		model.Route	true	"请求参数"
 //	@Success	200		{object}	any			"{"code": 200, "data": [...]}"
 //	@Security	ApiToken
 //	@Router		/admin/menu/menus/{id} [post]
 func (h *menuHandler) Update(ctx *gin.Context) {
 	id := cast.ToInt64(ctx.Param("id"))
-	item := new(model.Menu)
+	item := new(model.Route)
 	if err := ctx.ShouldBindJSON(item); err != nil {
 		h.ParamError(ctx, err)
 		return
 	}
 	item.ID = id
-	_, err := h.SvcMenu.UpdateOne(ctx, item)
+	metaStr := item.Meta.String()
+	menu := &model.Menu{
+		ID:       id,
+		Pid:      item.Pid,
+		Path:     item.Path,
+		Name:     item.Name,
+		Label:    item.Meta.Title,
+		Icon:     item.Meta.Icon,
+		Redirect: item.Redirect,
+		Order:    item.Meta.Order,
+		Meta:     &metaStr,
+	}
+	_, err := h.SvcMenu.UpdateOne(ctx, menu)
 	if err != nil {
 		h.Resp().Error(ctx, err)
 		return

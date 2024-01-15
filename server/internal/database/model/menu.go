@@ -1,5 +1,7 @@
 package model
 
+import "encoding/json"
+
 type Route struct {
 	ID       int64     `json:"id"`                 // 菜单id
 	Pid      int64     `json:"pid"`                // 菜单父id
@@ -21,4 +23,20 @@ type RouteMeta struct {
 	NoAffix            bool     `json:"noAffix,omitempty"`            // if set true, the tag will not affix in the tab-bar
 	IgnoreCache        bool     `json:"ignoreCache,omitempty"`        // if set true, the page will not be cached
 	Roles              []string `json:"roles,omitempty"`              // Controls roles that have access to the page
+}
+
+func (p *Route) String() string {
+	bs, err := json.Marshal(p)
+	if err != nil {
+		return ""
+	}
+	return string(bs)
+}
+
+func (p *RouteMeta) String() string {
+	bs, err := json.Marshal(p)
+	if err != nil {
+		return ""
+	}
+	return string(bs)
 }

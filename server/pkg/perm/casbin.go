@@ -2,7 +2,7 @@ package perm
 
 import (
 	"context"
-	"yafgo/yafgo-layout/internal/query"
+	"yafgo/yafgo-layout/internal/database/query"
 	"yafgo/yafgo-layout/pkg/sys/ylog"
 
 	"github.com/casbin/casbin/v2"

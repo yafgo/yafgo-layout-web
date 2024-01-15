@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"time"
-	"yafgo/yafgo-layout/internal/model"
+	"yafgo/yafgo-layout/internal/database/model"
 	"yafgo/yafgo-layout/pkg/sys/ylog"
 
 	"github.com/spf13/cobra"

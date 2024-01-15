@@ -101,7 +101,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Menu"
+                            "$ref": "#/definitions/model.Route"
                         }
                     }
                 ],
@@ -168,7 +168,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Menu"
+                            "$ref": "#/definitions/model.Route"
                         }
                     }
                 ],
@@ -401,8 +401,84 @@ const docTemplate = `{
                 }
             }
         },
-        "model.Menu": {
-            "type": "object"
+        "model.Route": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Route"
+                    }
+                },
+                "id": {
+                    "description": "菜单id",
+                    "type": "integer"
+                },
+                "meta": {
+                    "$ref": "#/definitions/model.RouteMeta"
+                },
+                "name": {
+                    "description": "路由名, 必须和前端路由定义一致",
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "pid": {
+                    "description": "菜单父id",
+                    "type": "integer"
+                },
+                "redirect": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.RouteMeta": {
+            "type": "object",
+            "properties": {
+                "activeMenu": {
+                    "description": "if set name, the menu will be highlighted according to the name you set",
+                    "type": "string"
+                },
+                "hideChildrenInMenu": {
+                    "description": "if set true, the children are not displayed in the side menu",
+                    "type": "boolean"
+                },
+                "hideInMenu": {
+                    "description": "If true, it is not displayed in the side menu",
+                    "type": "boolean"
+                },
+                "icon": {
+                    "description": "The icon show in the side menu",
+                    "type": "string"
+                },
+                "ignoreCache": {
+                    "description": "if set true, the page will not be cached",
+                    "type": "boolean"
+                },
+                "noAffix": {
+                    "description": "if set true, the tag will not affix in the tab-bar",
+                    "type": "boolean"
+                },
+                "order": {
+                    "description": "Sort routing menu items. If set key, the higher the value, the more forward it is",
+                    "type": "integer"
+                },
+                "requiresAuth": {
+                    "type": "boolean"
+                },
+                "roles": {
+                    "description": "Controls roles that have access to the page",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "description": "The title name show in side menu and breadcrumb",
+                    "type": "string"
+                }
+            }
         },
         "service.ReqLoginUsername": {
             "type": "object",
