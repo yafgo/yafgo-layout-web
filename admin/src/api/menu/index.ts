@@ -18,5 +18,5 @@ export const apiSave = (data: any) => {
 }
 
 export const apiDelete = (id: number) => {
-  return request.post({ url: `/api/admin/menu/menus/${id}` })
+  return request.delete({ url: `/api/admin/menu/menus/${id}` })
 }

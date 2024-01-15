@@ -89,7 +89,7 @@ const formSchema = reactive<FormSchema[]>([
   {
     field: 'meta.icon',
     label: t('menu.icon'),
-    component: 'Input'
+    component: 'IconPicker'
   },
   {
     field: 'path',

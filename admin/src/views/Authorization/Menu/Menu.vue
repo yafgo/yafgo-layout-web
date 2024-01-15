@@ -1,10 +1,10 @@
 <script setup lang="tsx">
 import { reactive, ref, unref } from 'vue'
-import { apiGetMenuList, apiSave } from '@/api/menu'
+import { apiDelete, apiGetMenuList, apiSave } from '@/api/menu'
 import { useTable } from '@/hooks/web/useTable'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table, TableColumn } from '@/components/Table'
-import { ElMessage, ElTag } from 'element-plus'
+import { ElMessage, ElMessageBox, ElTag } from 'element-plus'
 import { Icon } from '@/components/Icon'
 import { Search } from '@/components/Search'
 import { FormSchema } from '@/components/Form'
@@ -111,7 +111,7 @@ const tableColumns = reactive<TableColumn[]>([
             <BaseButton type="success" size="small" onClick={() => action(row, 'detail')}>
               {t('exampleDemo.detail')}
             </BaseButton>
-            <BaseButton type="danger" size="small" onClick={() => action(row, 'delete')}>
+            <BaseButton type="danger" size="small" onClick={() => actionDelete(row)}>
               {t('exampleDemo.del')}
             </BaseButton>
           </>
@@ -174,6 +174,20 @@ const save = async () => {
   }
   dialogVisible.value = false
   ElMessage.success('保存成功')
+  getList()
+}
+
+const actionDelete = async (row: any) => {
+  const confirm = await ElMessageBox.confirm('确认删除？请谨慎操作！', '删除确认').catch(() => {})
+  if (!confirm) {
+    return
+  }
+  const res = await apiDelete(row.id)
+  if (!res.success) {
+    return
+  }
+  ElMessage.success('删除成功')
+  getList()
 }
 </script>
 

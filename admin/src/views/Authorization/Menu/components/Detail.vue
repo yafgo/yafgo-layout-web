@@ -12,7 +12,7 @@ defineProps({
 })
 
 const renderTag = (enable?: boolean) => {
-  return <ElTag type={!enable ? 'danger' : 'success'}>{enable ? '启用' : '禁用'}</ElTag>
+  return <ElTag type={!enable ? 'danger' : 'success'}>{enable ? '是' : '否'}</ElTag>
 }
 
 const detailSchema = ref<DescriptionsSchema[]>([
@@ -34,16 +34,6 @@ const detailSchema = ref<DescriptionsSchema[]>([
   {
     field: 'meta.title',
     label: '菜单名称'
-  },
-  {
-    field: 'component',
-    label: '组件',
-    slots: {
-      default: (data) => {
-        const component = data.component
-        return <>{component === '#' ? '顶级目录' : component === '##' ? '子目录' : component}</>
-      }
-    }
   },
   {
     field: 'name',
