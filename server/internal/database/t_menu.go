@@ -12,7 +12,7 @@ func init() {
 				"Menu",                           // 生成的 model 名
 				gen.FieldIgnore(fieldsIgnore...), // 生成的 model 忽略相应字段
 				gen.FieldType("meta", "*string"),
-				gen.FieldType("status", "*bool"),
+				gen.FieldType("status", "*int32"),
 			),
 		)
 	})

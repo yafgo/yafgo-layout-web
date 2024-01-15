@@ -1,10 +1,10 @@
 <script setup lang="tsx">
 import { Form, FormSchema } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
-import { PropType, reactive, watch, ref, unref } from 'vue'
+import { PropType, reactive, watch, ref } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
 import { useI18n } from '@/hooks/web/useI18n'
-import { getMenuListApi } from '@/api/menu'
+import { apiGetMenuList } from '@/api/menu'
 import { ElTag } from 'element-plus'
 import AddButtonPermission from './AddButtonPermission.vue'
 import { BaseButton } from '@/components/Button'
@@ -50,46 +50,11 @@ const formSchema = reactive<FormSchema[]>([
           label: '菜单',
           value: 1
         }
-      ],
-      on: {
-        change: async (val: number) => {
-          const formData = await getFormData()
-          if (val === 1) {
-            setSchema([
-              {
-                field: 'component',
-                path: 'componentProps.disabled',
-                value: false
-              }
-            ])
-            setValues({
-              component: unref(cacheComponent)
-            })
-          } else {
-            setSchema([
-              {
-                field: 'component',
-                path: 'componentProps.disabled',
-                value: true
-              }
-            ])
-
-            if (formData.parentId === void 0) {
-              setValues({
-                component: '#'
-              })
-            } else {
-              setValues({
-                component: '##'
-              })
-            }
-          }
-        }
-      }
+      ]
     }
   },
   {
-    field: 'parentId',
+    field: 'pid',
     label: '父级菜单',
     component: 'TreeSelect',
     componentProps: {
@@ -104,49 +69,17 @@ const formSchema = reactive<FormSchema[]>([
       checkStrictly: true,
       checkOnClickNode: true,
       clearable: true,
-      on: {
-        change: async (val: number) => {
-          const formData = await getFormData()
-          if (val && formData.type === 0) {
-            setValues({
-              component: '##'
-            })
-          } else if (!val && formData.type === 0) {
-            setValues({
-              component: '#'
-            })
-          } else if (formData.type === 1) {
-            setValues({
-              component: unref(cacheComponent) ?? ''
-            })
-          }
-        }
-      }
+      renderContent: (_: any, { data }: any) => <>{t(data.title)}</>
     },
     optionApi: async () => {
-      const res = await getMenuListApi()
-      return res.data.list || []
+      const res = await apiGetMenuList()
+      return res.data || []
     }
   },
   {
     field: 'meta.title',
     label: t('menu.menuName'),
     component: 'Input'
-  },
-  {
-    field: 'component',
-    label: '组件',
-    component: 'Input',
-    value: '#',
-    componentProps: {
-      disabled: true,
-      placeholder: '#为顶级目录，##为子目录',
-      on: {
-        change: (val: string) => {
-          cacheComponent.value = val
-        }
-      }
-    }
   },
   {
     field: 'name',
@@ -255,7 +188,7 @@ const rules = reactive({
 })
 
 const { formRegister, formMethods } = useForm()
-const { setValues, getFormData, getElFormExpose, setSchema } = formMethods
+const { setValues, getFormData, getElFormExpose } = formMethods
 
 const submit = async () => {
   const elForm = await getElFormExpose()
@@ -268,48 +201,11 @@ const submit = async () => {
   }
 }
 
-const cacheComponent = ref('')
-
 watch(
   () => props.currentRow,
   (value) => {
     if (!value) return
     const currentRow = cloneDeep(value)
-    cacheComponent.value = currentRow.type === 1 ? currentRow.component : ''
-    if (currentRow.parentId === 0) {
-      setSchema([
-        {
-          field: 'component',
-          path: 'componentProps.disabled',
-          value: true
-        }
-      ])
-    } else {
-      setSchema([
-        {
-          field: 'component',
-          path: 'componentProps.disabled',
-          value: false
-        }
-      ])
-    }
-    if (currentRow.type === 1) {
-      setSchema([
-        {
-          field: 'component',
-          path: 'componentProps.disabled',
-          value: false
-        }
-      ])
-    } else {
-      setSchema([
-        {
-          field: 'component',
-          path: 'componentProps.disabled',
-          value: true
-        }
-      ])
-    }
     setValues(currentRow)
   },
   {

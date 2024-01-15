@@ -22,7 +22,7 @@ type Menu struct {
 	Icon      string         `gorm:"column:icon;not null;comment:菜单图标" json:"icon"`
 	Redirect  string         `gorm:"column:redirect;not null;comment:重定向地址" json:"redirect"`
 	Order     int32          `gorm:"column:order;not null;comment:排序" json:"order"`
-	Status    *bool          `gorm:"column:status;not null;default:1;comment:状态:1-启用,0-禁用" json:"status"`
+	Status    *int32         `gorm:"column:status;not null;default:1;comment:状态:1-启用,0-禁用" json:"status"`
 	Meta      *string        `gorm:"column:meta;comment:meta信息" json:"meta"`
 	CreatedAt time.Time      `gorm:"column:created_at;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"column:updated_at;default:CURRENT_TIMESTAMP" json:"updated_at"`

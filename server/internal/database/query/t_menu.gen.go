@@ -36,7 +36,7 @@ func newMenu(db *gorm.DB, opts ...gen.DOOption) menu {
 	_menu.Icon = field.NewString(tableName, "icon")
 	_menu.Redirect = field.NewString(tableName, "redirect")
 	_menu.Order = field.NewInt32(tableName, "order")
-	_menu.Status = field.NewBool(tableName, "status")
+	_menu.Status = field.NewInt32(tableName, "status")
 	_menu.Meta = field.NewString(tableName, "meta")
 	_menu.CreatedAt = field.NewTime(tableName, "created_at")
 	_menu.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -59,7 +59,7 @@ type menu struct {
 	Icon      field.String // 菜单图标
 	Redirect  field.String // 重定向地址
 	Order     field.Int32  // 排序
-	Status    field.Bool   // 状态:1-启用,0-禁用
+	Status    field.Int32  // 状态:1-启用,0-禁用
 	Meta      field.String // meta信息
 	CreatedAt field.Time
 	UpdatedAt field.Time
@@ -88,7 +88,7 @@ func (m *menu) updateTableName(table string) *menu {
 	m.Icon = field.NewString(table, "icon")
 	m.Redirect = field.NewString(table, "redirect")
 	m.Order = field.NewInt32(table, "order")
-	m.Status = field.NewBool(table, "status")
+	m.Status = field.NewInt32(table, "status")
 	m.Meta = field.NewString(table, "meta")
 	m.CreatedAt = field.NewTime(table, "created_at")
 	m.UpdatedAt = field.NewTime(table, "updated_at")

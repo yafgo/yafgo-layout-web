@@ -1,10 +1,10 @@
 <script setup lang="tsx">
 import { reactive, ref, unref } from 'vue'
-import { getMenuListApi } from '@/api/menu'
+import { apiGetMenuList, apiSave } from '@/api/menu'
 import { useTable } from '@/hooks/web/useTable'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table, TableColumn } from '@/components/Table'
-import { ElTag } from 'element-plus'
+import { ElMessage, ElTag } from 'element-plus'
 import { Icon } from '@/components/Icon'
 import { Search } from '@/components/Search'
 import { FormSchema } from '@/components/Form'
@@ -18,9 +18,9 @@ const { t } = useI18n()
 
 const { tableRegister, tableState, tableMethods } = useTable({
   fetchDataApi: async () => {
-    const res = await getMenuListApi()
+    const res = await apiGetMenuList()
     return {
-      list: res.data.list || []
+      list: res.data || []
     }
   }
 })
@@ -29,36 +29,31 @@ const { dataList, loading } = tableState
 const { getList } = tableMethods
 
 const tableColumns = reactive<TableColumn[]>([
-  {
-    field: 'index',
+  /* {
+    field: 'id',
     label: t('userDemo.index'),
-    type: 'index'
-  },
+    width: 100
+  }, */
   {
     field: 'meta.title',
     label: t('menu.menuName'),
     slots: {
       default: (data: any) => {
         const title = data.row.meta.title
-        return <>{title}</>
+        return <>{t(title)}</>
       }
     }
   },
   {
     field: 'meta.icon',
     label: t('menu.icon'),
+    width: 60,
+    align: 'center',
+    headerAlign: 'center',
     slots: {
       default: (data: any) => {
         const icon = data.row.meta.icon
-        if (icon) {
-          return (
-            <>
-              <Icon icon={icon} />
-            </>
-          )
-        } else {
-          return null
-        }
+        return icon ? <Icon icon={icon} /> : null
       }
     }
   },
@@ -72,7 +67,7 @@ const tableColumns = reactive<TableColumn[]>([
   //     }
   //   }
   // },
-  {
+  /* {
     field: 'component',
     label: t('menu.component'),
     slots: {
@@ -81,7 +76,7 @@ const tableColumns = reactive<TableColumn[]>([
         return <>{component === '#' ? '顶级目录' : component === '##' ? '子目录' : component}</>
       }
     }
-  },
+  }, */
   {
     field: 'path',
     label: t('menu.path')
@@ -110,13 +105,15 @@ const tableColumns = reactive<TableColumn[]>([
         const row = data.row
         return (
           <>
-            <BaseButton type="primary" onClick={() => action(row, 'edit')}>
+            <BaseButton type="primary" size="small" onClick={() => action(row, 'edit')}>
               {t('exampleDemo.edit')}
             </BaseButton>
-            <BaseButton type="success" onClick={() => action(row, 'detail')}>
+            <BaseButton type="success" size="small" onClick={() => action(row, 'detail')}>
               {t('exampleDemo.detail')}
             </BaseButton>
-            <BaseButton type="danger">{t('exampleDemo.del')}</BaseButton>
+            <BaseButton type="danger" size="small" onClick={() => action(row, 'delete')}>
+              {t('exampleDemo.del')}
+            </BaseButton>
           </>
         )
       }
@@ -165,14 +162,18 @@ const AddAction = () => {
 const save = async () => {
   const write = unref(writeRef)
   const formData = await write?.submit()
-  console.log(formData)
-  if (formData) {
-    saveLoading.value = true
-    setTimeout(() => {
-      saveLoading.value = false
-      dialogVisible.value = false
-    }, 1000)
+  // console.log(formData)
+  if (!formData) {
+    return
   }
+  saveLoading.value = true
+  const res = await apiSave(formData)
+  saveLoading.value = false
+  if (!res.success) {
+    return
+  }
+  dialogVisible.value = false
+  ElMessage.success('保存成功')
 }
 </script>
 
@@ -188,11 +189,12 @@ const save = async () => {
       node-key="id"
       :data="dataList"
       :loading="loading"
+      size="small"
       @register="tableRegister"
     />
   </ContentWrap>
 
-  <Dialog v-model="dialogVisible" :title="dialogTitle">
+  <Dialog v-model="dialogVisible" :title="dialogTitle" max-height="55vh">
     <Write v-if="actionType !== 'detail'" ref="writeRef" :current-row="currentRow" />
 
     <Detail v-if="actionType === 'detail'" :current-row="currentRow" />

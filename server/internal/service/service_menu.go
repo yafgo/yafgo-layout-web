@@ -10,6 +10,7 @@ type MenuService interface {
 	GetList(ctx context.Context) ([]*model.Menu, error)
 	CreateOne(ctx context.Context, item *model.Menu) error
 	UpdateOne(ctx context.Context, item *model.Menu) (rows int64, err error)
+	UpdateOneWithMap(ctx context.Context, id int64, data map[string]any) (rows int64, err error)
 	DelByID(ctx context.Context, id int64) (rows int64, err error)
 	GetRoutes(ctx context.Context) (routes []*model.Route, err error)
 }
@@ -49,7 +50,20 @@ func (s *menuService) CreateOne(ctx context.Context, item *model.Menu) error {
 func (s *menuService) UpdateOne(ctx context.Context, item *model.Menu) (rows int64, err error) {
 	q := s.Q.Menu
 	do := q.WithContext(ctx)
-	info, err := do.Where(q.ID.Eq(item.ID)).Updates(item)
+	id := item.ID
+	item.ID = 0
+	info, err := do.Where(q.ID.Eq(id)).Updates(item)
+	if err != nil {
+		return
+	}
+	return info.RowsAffected, info.Error
+}
+
+// UpdateOneWithMap implements MenuService.
+func (s *menuService) UpdateOneWithMap(ctx context.Context, id int64, data map[string]any) (rows int64, err error) {
+	q := s.Q.Menu
+	do := q.WithContext(ctx)
+	info, err := do.Where(q.ID.Eq(id)).Updates(data)
 	if err != nil {
 		return
 	}
@@ -85,7 +99,9 @@ func (s *menuService) GetRoutes(ctx context.Context) (routes []*model.Route, err
 			Pid:      v.Pid,
 			Path:     v.Path,
 			Name:     v.Name,
+			Title:    v.Label,
 			Redirect: v.Redirect,
+			Status:   v.Status,
 			Meta: model.RouteMeta{
 				Icon:  v.Icon,
 				Title: v.Label,

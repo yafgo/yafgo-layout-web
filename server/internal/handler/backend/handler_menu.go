@@ -78,19 +78,7 @@ func (h *menuHandler) Detail(ctx *gin.Context) {
 //	@Security	ApiToken
 //	@Router		/admin/menu/menus [post]
 func (h *menuHandler) Create(ctx *gin.Context) {
-	item := new(model.Menu)
-	if err := ctx.ShouldBindJSON(item); err != nil {
-		h.ParamError(ctx, err)
-		return
-	}
-
-	err := h.SvcMenu.CreateOne(ctx, item)
-	if err != nil {
-		h.Resp().Error(ctx, err)
-		return
-	}
-
-	h.Resp().Success(ctx, item)
+	h.Update(ctx)
 }
 
 // Update implements MenuHandler.
@@ -107,23 +95,40 @@ func (h *menuHandler) Update(ctx *gin.Context) {
 	id := cast.ToInt64(ctx.Param("id"))
 	item := new(model.Route)
 	if err := ctx.ShouldBindJSON(item); err != nil {
-		h.ParamError(ctx, err)
+		h.ParamError(ctx, err, "参数错误")
 		return
 	}
-	item.ID = id
 	metaStr := item.Meta.String()
-	menu := &model.Menu{
-		ID:       id,
-		Pid:      item.Pid,
-		Path:     item.Path,
-		Name:     item.Name,
-		Label:    item.Meta.Title,
-		Icon:     item.Meta.Icon,
-		Redirect: item.Redirect,
-		Order:    item.Meta.Order,
-		Meta:     &metaStr,
+
+	var err error
+	if id > 0 {
+		updData := map[string]any{
+			"pid":      item.Pid,
+			"path":     item.Path,
+			"name":     item.Name,
+			"label":    item.Meta.Title,
+			"icon":     item.Meta.Icon,
+			"redirect": item.Redirect,
+			"order":    item.Meta.Order,
+			"status":   item.Status,
+			"meta":     metaStr,
+		}
+		_, err = h.SvcMenu.UpdateOneWithMap(ctx, id, updData)
+	} else {
+		menu := &model.Menu{
+			ID:       id,
+			Pid:      item.Pid,
+			Path:     item.Path,
+			Name:     item.Name,
+			Label:    item.Meta.Title,
+			Icon:     item.Meta.Icon,
+			Redirect: item.Redirect,
+			Order:    item.Meta.Order,
+			Status:   item.Status,
+			Meta:     &metaStr,
+		}
+		err = h.SvcMenu.CreateOne(ctx, menu)
 	}
-	_, err := h.SvcMenu.UpdateOne(ctx, menu)
 	if err != nil {
 		h.Resp().Error(ctx, err)
 		return
@@ -164,51 +169,6 @@ func (h *menuHandler) Delete(ctx *gin.Context) {
 //	@Security		ApiToken
 //	@Router			/admin/menu [get]
 func (h *menuHandler) Menus(ctx *gin.Context) {
-	/* menus := []model.Route{
-		{
-			Path: "/dashboard",
-			Name: "dashboard",
-			Meta: model.RouteMeta{
-				Locale:       "menu.server.dashboard",
-				RequiresAuth: true,
-				Icon:         "icon-dashboard",
-				Order:        1,
-			},
-			Children: []*model.Route{
-				{
-					Path: "workplace",
-					Name: "Workplace",
-					Meta: model.RouteMeta{
-						Locale:       "menu.server.workplace",
-						RequiresAuth: true,
-						Icon:         "icon-dashboard",
-						Order:        1,
-					},
-				},
-				{
-					Path: "https://arco.design",
-					Name: "arcoWebsite",
-					Meta: model.RouteMeta{
-						Locale:       "menu.arcoWebsite",
-						RequiresAuth: true,
-						Icon:         "icon-dashboard",
-						Order:        2,
-					},
-				},
-				{
-					Path: "https://arco.design",
-					Name: "arcoWebsite1",
-					Meta: model.RouteMeta{
-						Locale:       "测试",
-						RequiresAuth: true,
-						Icon:         "icon-dashboard",
-						Order:        3,
-					},
-				},
-			},
-		},
-	}
-	h.Resp().Success(ctx, menus) */
 	routes, err := h.SvcMenu.GetRoutes(ctx)
 	if err != nil {
 		h.Resp().Error(ctx, err)
