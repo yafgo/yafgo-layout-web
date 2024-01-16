@@ -183,7 +183,10 @@ export default {
     cardTable: '卡片表格',
     system: '系统管理',
     systemSetting: '系统设置',
-    systemYcfg: '配置管理'
+    systemYcfg: '配置管理',
+    dms: '数据管理',
+    dmsList: '数据管理',
+    dmsDetail: '数据详情'
   },
   permission: {
     hasPermission: '请设置操作权限值'

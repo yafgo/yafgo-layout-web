@@ -187,7 +187,10 @@ export default {
     cardTable: 'Card table',
     system: 'System Management',
     systemSetting: 'System Settings',
-    systemYcfg: 'System Config'
+    systemYcfg: 'System Config',
+    dms: 'Data Management',
+    dmsList: 'Data Management',
+    dmsDetail: 'Date Detail'
   },
   permission: {
     hasPermission: 'Please set the operation permission value'
