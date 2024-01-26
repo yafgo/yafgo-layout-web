@@ -1,0 +1,20 @@
+CREATE TABLE `t_dms_data_column` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `data_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '数据表id',
+  `table_name` varchar(50) NOT NULL DEFAULT '' COMMENT '真实表名',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '显示列名',
+  `column_name` varchar(100) NOT NULL DEFAULT '' COMMENT '真实列名',
+  `column_type` varchar(30) NOT NULL DEFAULT '' COMMENT '列类型',
+  `data_type` varchar(30) NOT NULL DEFAULT '' COMMENT '数据类型',
+  `order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '字段排序',
+  `is_nullable` tinyint(1) NOT NULL DEFAULT '1' COMMENT '可为null, 0:否,1:是',
+  `char_max_length` int(11) NOT NULL DEFAULT '0' COMMENT '字段最大字符长度',
+  `comment` varchar(255) NOT NULL DEFAULT '' COMMENT '字段注释',
+  `settings` JSON COMMENT '字段配置',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY idx_data_id (data_id),
+  KEY idx_table_name (table_name)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'dms数据表列管理';

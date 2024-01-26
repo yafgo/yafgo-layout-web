@@ -16,14 +16,18 @@ import (
 )
 
 var (
-	Q        = new(Query)
-	Menu     *menu
-	MyStruct *myStruct
-	User     *user
+	Q             = new(Query)
+	DmsData       *dmsData
+	DmsDataColumn *dmsDataColumn
+	Menu          *menu
+	MyStruct      *myStruct
+	User          *user
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
+	DmsData = &Q.DmsData
+	DmsDataColumn = &Q.DmsDataColumn
 	Menu = &Q.Menu
 	MyStruct = &Q.MyStruct
 	User = &Q.User
@@ -31,29 +35,35 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:       db,
-		Menu:     newMenu(db, opts...),
-		MyStruct: newMyStruct(db, opts...),
-		User:     newUser(db, opts...),
+		db:            db,
+		DmsData:       newDmsData(db, opts...),
+		DmsDataColumn: newDmsDataColumn(db, opts...),
+		Menu:          newMenu(db, opts...),
+		MyStruct:      newMyStruct(db, opts...),
+		User:          newUser(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	Menu     menu
-	MyStruct myStruct
-	User     user
+	DmsData       dmsData
+	DmsDataColumn dmsDataColumn
+	Menu          menu
+	MyStruct      myStruct
+	User          user
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:       db,
-		Menu:     q.Menu.clone(db),
-		MyStruct: q.MyStruct.clone(db),
-		User:     q.User.clone(db),
+		db:            db,
+		DmsData:       q.DmsData.clone(db),
+		DmsDataColumn: q.DmsDataColumn.clone(db),
+		Menu:          q.Menu.clone(db),
+		MyStruct:      q.MyStruct.clone(db),
+		User:          q.User.clone(db),
 	}
 }
 
@@ -67,24 +77,30 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:       db,
-		Menu:     q.Menu.replaceDB(db),
-		MyStruct: q.MyStruct.replaceDB(db),
-		User:     q.User.replaceDB(db),
+		db:            db,
+		DmsData:       q.DmsData.replaceDB(db),
+		DmsDataColumn: q.DmsDataColumn.replaceDB(db),
+		Menu:          q.Menu.replaceDB(db),
+		MyStruct:      q.MyStruct.replaceDB(db),
+		User:          q.User.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	Menu     IMenuDo
-	MyStruct IMyStructDo
-	User     IUserDo
+	DmsData       IDmsDataDo
+	DmsDataColumn IDmsDataColumnDo
+	Menu          IMenuDo
+	MyStruct      IMyStructDo
+	User          IUserDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Menu:     q.Menu.WithContext(ctx),
-		MyStruct: q.MyStruct.WithContext(ctx),
-		User:     q.User.WithContext(ctx),
+		DmsData:       q.DmsData.WithContext(ctx),
+		DmsDataColumn: q.DmsDataColumn.WithContext(ctx),
+		Menu:          q.Menu.WithContext(ctx),
+		MyStruct:      q.MyStruct.WithContext(ctx),
+		User:          q.User.WithContext(ctx),
 	}
 }
 
