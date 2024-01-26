@@ -3,6 +3,7 @@ package service
 import (
 	"yafgo/yafgo-layout/internal/database/query"
 	"yafgo/yafgo-layout/pkg/jwtutil"
+	"yafgo/yafgo-layout/pkg/sys/ycfg"
 	"yafgo/yafgo-layout/pkg/sys/ylog"
 
 	"github.com/redis/go-redis/v9"
@@ -10,6 +11,7 @@ import (
 )
 
 type Service struct {
+	Cfg    *ycfg.Config
 	Logger *ylog.Logger
 	Jwt    *jwtutil.JwtUtil
 	DB     *gorm.DB
@@ -18,6 +20,7 @@ type Service struct {
 }
 
 func NewService(
+	cfg *ycfg.Config,
 	logger *ylog.Logger,
 	jwt *jwtutil.JwtUtil,
 	db *gorm.DB,
@@ -25,6 +28,7 @@ func NewService(
 	q *query.Query,
 ) *Service {
 	return &Service{
+		Cfg:    cfg,
 		Logger: logger,
 		Jwt:    jwt,
 		DB:     db,

@@ -18,6 +18,7 @@ type Router struct {
 	indexHandler  IndexHandler
 	menuHandler   MenuHandler
 	systemHandler SystemHandler
+	dmsDbHandler  DmsDbHandler
 }
 
 func NewRouter(
@@ -34,6 +35,7 @@ func NewRouter(
 		indexHandler:  NewIndexHandler(hdl),
 		menuHandler:   NewMenuHandler(hdl),
 		systemHandler: NewSystemHandler(hdl),
+		dmsDbHandler:  NewDmsDbHandler(hdl),
 	}
 }
 
@@ -62,5 +64,33 @@ func (p *Router) Register(router *gin.Engine) {
 		r.GET("/system/cfg", p.systemHandler.ShowCfg)
 		r.GET("/system/cfg_in_redis", p.systemHandler.GetCfgInRedis)
 		r.POST("/system/cfg_in_redis", p.systemHandler.SetCfgInRedis)
+	}
+
+	{
+		// dms数据管理
+		r := rApi.Group("/dms")
+
+		// 数据源管理
+		r.GET("/databases", p.dmsDbHandler.List)
+		r.POST("/databases", p.dmsDbHandler.Create)
+		r.GET("/databases/:id", p.dmsDbHandler.Get)
+		r.POST("/databases/:id", p.dmsDbHandler.Update)
+		r.DELETE("/databases/:id", p.dmsDbHandler.List)
+		r.GET("/databases/:id/tables", p.dmsDbHandler.GetTables)
+		r.GET("/databases/:id/tables/:tableName", p.dmsDbHandler.GetTable)
+
+		// 数据表管理
+		r.GET("/tables")
+		r.POST("/tables")
+		r.GET("/tables/:tid")
+		r.POST("/tables/:tid")
+		r.DELETE("/tables/:tid")
+
+		// 数据管理
+		r.GET("/tables/:tid/data")
+		r.POST("/tables/:tid/data")
+		r.GET("/tables/:tid/data/:id")
+		r.POST("/tables/:tid/data/:id")
+		r.DELETE("/tables/:tid/data/:id")
 	}
 }

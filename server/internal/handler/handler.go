@@ -25,6 +25,7 @@ type Handler struct {
 
 	SvcUser service.UserService
 	SvcMenu service.MenuService
+	SvcDms  service.DmsService
 }
 
 func NewHandler(
@@ -34,6 +35,7 @@ func NewHandler(
 	jwt *jwtutil.JwtUtil,
 	svcUser service.UserService,
 	svcMenu service.MenuService,
+	svcDms service.DmsService,
 ) *Handler {
 	return &Handler{
 		Cfg:    cfg,
@@ -43,6 +45,7 @@ func NewHandler(
 
 		SvcUser: svcUser,
 		SvcMenu: svcMenu,
+		SvcDms:  svcDms,
 	}
 }
 

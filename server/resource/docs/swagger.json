@@ -38,6 +38,199 @@
                 }
             }
         },
+        "/admin/dms/databases": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "DMS数据管理"
+                ],
+                "summary": "Dms数据库 list",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "DMS数据管理"
+                ],
+                "summary": "Dms数据库 新增",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/dms/databases/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "DMS数据管理"
+                ],
+                "summary": "Dms数据库 查询单条",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "DMS数据管理"
+                ],
+                "summary": "Dms数据库 更新",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "DMS数据管理"
+                ],
+                "summary": "Dms数据库 删除",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/dms/databases/{id}/tables": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "DMS数据管理"
+                ],
+                "summary": "Dms数据库 获取数据表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/dms/databases/{id}/tables/{tableName}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiToken": []
+                    }
+                ],
+                "tags": [
+                    "DMS数据管理"
+                ],
+                "summary": "Dms数据库 获取数据表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "表名",
+                        "name": "tableName",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/menu": {
             "get": {
                 "security": [
@@ -426,6 +619,14 @@
                 },
                 "redirect": {
                     "type": "string"
+                },
+                "status": {
+                    "description": "状态, 1-启用,0-禁用",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "菜单名称",
+                    "type": "string"
                 }
             }
         },
@@ -433,8 +634,12 @@
             "type": "object",
             "properties": {
                 "activeMenu": {
-                    "description": "if set name, the menu will be highlighted according to the name you set",
+                    "description": "显示高亮的路由路径",
                     "type": "string"
+                },
+                "breadcrumb": {
+                    "description": "是否在breadcrumb中显示",
+                    "type": "boolean"
                 },
                 "hideChildrenInMenu": {
                     "description": "if set true, the children are not displayed in the side menu",
@@ -445,19 +650,19 @@
                     "type": "boolean"
                 },
                 "icon": {
-                    "description": "The icon show in the side menu",
+                    "description": "菜单图标",
                     "type": "string"
-                },
-                "ignoreCache": {
-                    "description": "if set true, the page will not be cached",
-                    "type": "boolean"
                 },
                 "noAffix": {
                     "description": "if set true, the tag will not affix in the tab-bar",
                     "type": "boolean"
                 },
+                "noCache": {
+                    "description": "if set true, the page will not be cached",
+                    "type": "boolean"
+                },
                 "order": {
-                    "description": "Sort routing menu items. If set key, the higher the value, the more forward it is",
+                    "description": "一级菜单排序",
                     "type": "integer"
                 },
                 "requiresAuth": {
@@ -471,7 +676,7 @@
                     }
                 },
                 "title": {
-                    "description": "The title name show in side menu and breadcrumb",
+                    "description": "菜单名称",
                     "type": "string"
                 }
             }

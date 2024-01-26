@@ -41,6 +41,7 @@ func NewApp() (app *application) {
 	container.Provide(service.NewService)
 	container.Provide(service.NewUserService)
 	container.Provide(service.NewMenuService)
+	container.Provide(service.NewDmsService)
 
 	// repository
 	container.Provide(repository.NewRepository)
